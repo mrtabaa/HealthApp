@@ -21,7 +21,7 @@ namespace API.Controllers {
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers() => 
+        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers() =>
             await _userService.GetUsers();
 
         [HttpGet("{id:length(24)}")]
