@@ -9,12 +9,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace API.Controllers {
-    [ApiController]
-    [Route("api/[controller]")]
-    // [Authorize]
-    //use ControllerBase for API 
-    //use Controller     for Views and/or API
-    public class UsersController : ControllerBase {
+    public class UsersController : BaseApiController {
         private readonly UserService _userService;
         public UsersController(UserService userService) {
             _userService = userService;
