@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using API.Models;
 using API.Services;
@@ -25,9 +27,20 @@ namespace API.Controllers {
             return user == null ? null : user; // improve the code by returning NotFound() instead of null
         }
 
-        [HttpPost]
-        public ActionResult<AppUser> CreateUser(AppUser user) =>
-            _userService.CreateUser(user);
+        [HttpPost("register")]
+        public async Task<ActionResult<AppUser>> Register(string username, string password) {
+            using var hmac = new HMACSHA512();
+
+            AppUser user = new AppUser {
+                Firstname = "Reza",
+                Lastname = "Taba",
+                Username = username,
+                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)),
+                PasswordSalt = hmac.Key
+            };
+
+            return await _userService.CreateUser(user);
+        }
 
         // [HttpDelete]
         // public ActionResult<AppUser> DeletedUser(string id) => _userService.DeleteUser(id);
