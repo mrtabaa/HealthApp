@@ -12,18 +12,18 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace API.Controllers {
     public class UsersController : BaseApiController {
-        private readonly UserService _userService;
-        public UsersController(UserService userService) {
-            _userService = userService;
+        private readonly UserRepository _userRepository;
+        public UsersController(UserRepository userRepository) {
+            _userRepository = userRepository;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers() =>
-            await _userService.GetUsers();
+            await _userRepository.GetUsers();
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<AppUser>> GetUser(string id) {
-            AppUser user = await _userService.GetUser(id);
+            AppUser user = await _userRepository.GetUser(id);
             return user == null ? null : user; // improve the code by returning NotFound() instead of null
         }
 
@@ -39,7 +39,7 @@ namespace API.Controllers {
                 PasswordSalt = hmac.Key
             };
 
-            return await _userService.CreateUser(user);
+            return await _userRepository.CreateUser(user);
         }
 
         // [HttpDelete]
