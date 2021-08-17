@@ -2,14 +2,16 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace API.Models {
-    public class AppUser {
+    public record AppUser {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-        public string Firstname { get; set; }
-        public string Lastname { get; set; }
+        [BsonRequired]
+        public string Id { get; init; }
+        [BsonRequired]
         public string Username { get; set; }
+        [BsonRequired]
         public byte[] PasswordHash { get; set; }
+        [BsonRequired]
         public byte[] PasswordSalt { get; set; }
     }
 }
