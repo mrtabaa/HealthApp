@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Models;
-using API.Services;
+using API.Repositories;
+using API.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 
 namespace API {
     public class Startup {
@@ -26,11 +28,13 @@ namespace API {
         public void ConfigureServices(IServiceCollection services) {
             /* #region MY ADDED CODES */
 
-            //MongoDb db name and connection settings read from appsettings.Development.json 
-            services.Configure<DatabaseSettings>(_config.GetSection(nameof(DatabaseSettings)));
-            services.AddSingleton<IDatabaseSettings>(x => x.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+            services.Configure<MongoDbSettings>(_config.GetSection(nameof(MongoDbSettings)));
+            services.AddSingleton<IMongoClient>(serviceProvider => {
+                var uri = serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value;
+                return new MongoClient(uri.ConnectionString);
+            });
 
-            services.AddSingleton<UserService>();
+            services.AddSingleton<IUsersRepository, UsersRepository>();
 
             /* #endregion */
 
