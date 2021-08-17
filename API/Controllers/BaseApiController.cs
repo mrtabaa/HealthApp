@@ -7,7 +7,7 @@ namespace API.Controllers
     // [Authorize]
     //use ControllerBase for API 
     //use Controller     for Views and/or API
-    public class BaseApiController
+    public class BaseApiController : ControllerBase
     {
         
     }
