@@ -32,9 +32,9 @@ namespace API.Repositories {
 
         // create/insert a user
         public async Task<AppUser> CreateUser(RegisterDto registerDto) {
-            
-            if(await UserExists(registerDto.Username.ToLower())) 
-                return null;
+
+            // if(await UserExists(registerDto.Username.ToLower())) 
+            //     return null;
 
             using var hmac = new HMACSHA512();
 
