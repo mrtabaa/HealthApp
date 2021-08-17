@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Models;
-using API.Services;
+using API.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
 
 namespace API.Controllers {
     public class UsersController : BaseApiController {
-        private readonly UserRepository _userRepository;
-        public UsersController(UserRepository userRepository) {
-            _userRepository = userRepository;
+        private readonly IUsersRepository _userRepository;
+        private readonly IMongoCollection<AppUser> _collection;
+
+        public UsersController(IUsersRepository usersRepository) {
+            _userRepository = usersRepository;
         }
 
         [HttpGet]
@@ -28,18 +32,9 @@ namespace API.Controllers {
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<AppUser>> Register(string username, string password) {
-            using var hmac = new HMACSHA512();
-
-            AppUser user = new AppUser {
-                Firstname = "Reza",
-                Lastname = "Taba",
-                Username = username,
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)),
-                PasswordSalt = hmac.Key
-            };
-
-            return await _userRepository.CreateUser(user);
+        public async Task<ActionResult<AppUser>> Register(RegisterDto registerDto) {
+            var user = await _userRepository.CreateUser(registerDto);
+            return user == null ? BadRequest("Username is taken.") : user;
         }
 
         // [HttpDelete]
