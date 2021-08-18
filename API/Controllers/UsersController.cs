@@ -1,15 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Models;
 using API.Repositories;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 
 namespace API.Controllers {
@@ -37,7 +31,9 @@ namespace API.Controllers {
             return user == null ? BadRequest("Username is taken.") : user;
         }
 
-        // [HttpDelete]
-        // public ActionResult<AppUser> DeletedUser(string id) => _userService.DeleteUser(id);
+        [HttpDelete]
+        public async Task DeletedUser(string id) {
+             await _userRepository.DeleteUser(id);
+        }
     }
 }
