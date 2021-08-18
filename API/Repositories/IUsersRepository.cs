@@ -8,9 +8,9 @@ namespace API.Repositories {
         Task<List<AppUser>> GetUsers();
         Task<AppUser> GetUser(string id);
         Task<AppUser> CreateUser(RegisterDto registerDto);
-        void ReplaceUser(string id, AppUser userIn);
-        void UpdateUser(string id, AppUser userIn);
-        void DeleteUser(string id);
-        void DeleteUser(AppUser userIn);
+        Task ReplaceUser(string id, AppUser userIn);
+        Task UpdateUser(string id, AppUser userIn);
+        Task DeleteUser(string id);
+        Task DeleteUser(AppUser userIn);
     }
 }

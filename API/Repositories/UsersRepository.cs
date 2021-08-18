@@ -33,7 +33,7 @@ namespace API.Repositories {
         // create/insert a user
         public async Task<AppUser> CreateUser(RegisterDto registerDto) {
 
-            if(await UserExists(registerDto.Username.ToLower())) 
+            if (await UserExists(registerDto.Username.ToLower()))
                 return null;
 
             using var hmac = new HMACSHA512();
@@ -49,20 +49,20 @@ namespace API.Repositories {
         }
 
         // replace a user
-        public void ReplaceUser(string id, AppUser userIn) =>
-            _collection.ReplaceOne<AppUser>(u => u.Id == id, userIn);
+        public async Task ReplaceUser(string id, AppUser userIn) =>
+            await _collection.ReplaceOneAsync<AppUser>(u => u.Id == id, userIn);
 
         // update a user
-        public void UpdateUser(string id, AppUser userIn) =>
-            _collection.UpdateOne<AppUser>(u => u.Id == id, userIn.Username = "Tania");
+        public async Task UpdateUser(string id, AppUser userIn) =>
+            await _collection.UpdateOneAsync<AppUser>(u => u.Id == id, userIn.Username = "Tania");
 
         // delete a user by id
-        public void DeleteUser(string id) =>
-            _collection.DeleteOne(u => u.Id == id);
+        public async Task DeleteUser(string id) =>
+            await _collection.DeleteOneAsync<AppUser>(u => u.Id == id);
 
         // delete a user by object
-        public void DeleteUser(AppUser userIn) =>
-            _collection.DeleteOne(u => u.Id == userIn.Id);
+        public async Task DeleteUser(AppUser userIn) =>
+            await _collection.DeleteOneAsync(u => u.Id == userIn.Id);
 
         /* #endregion CRUD*/
 
