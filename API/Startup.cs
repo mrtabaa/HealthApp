@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using API.Interfaces;
 using API.Models;
 using API.Repositories;
+using API.Services;
 using API.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,8 +36,9 @@ namespace API {
                 return new MongoClient(uri.ConnectionString);
             });
 
-            services.AddSingleton<IUsersRepository, UsersRepository>();
-            services.AddSingleton<IAccountRepository, AccountRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<ITokenService, TokenService>();
 
             /* #endregion */
 
