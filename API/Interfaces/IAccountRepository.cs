@@ -6,8 +6,8 @@ namespace API.Interfaces
 {
     public interface IAccountRepository
     {
-        Task<AppUser> Register(RegisterDto registerDto);
-        Task<AppUser> Login(LoginDto loginDto);
+        Task<RegisterDto> Register(RegisterDto registerDto);
+        Task<LoginDto> Login(LoginDto loginDto);
         Task DeleteUser(string id);
     }
 }

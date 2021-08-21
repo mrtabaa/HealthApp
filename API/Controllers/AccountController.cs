@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Interfaces;
-using API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -15,18 +14,18 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<AppUser>> Register(RegisterDto registerDto) {
-            var user = await _accountRepository.Register(registerDto);
-            return user == null ? BadRequest("Username is taken.") : user;
+        public async Task<ActionResult<RegisterDto>> Register(RegisterDto registerDto) {
+            var registeredUser = await _accountRepository.Register(registerDto);
+            return registeredUser == null ? BadRequest("Username is taken.") : registerDto;
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<AppUser>> Login(LoginDto loginDto) {
-            var user = await _accountRepository.Login(loginDto);
-            if (user == null)
+        public async Task<ActionResult<LoginDto>> Login(LoginDto loginDto) {
+            var logedInUser = await _accountRepository.Login(loginDto);
+            if (logedInUser == null)
                 return Unauthorized("Invalid username or password!");
 
-            return user;
+            return loginDto;
         }
 
         [HttpDelete("delete")]

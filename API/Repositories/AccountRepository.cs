@@ -21,7 +21,7 @@ namespace API.Repositories {
         /* #region CRUD */
 
         // create/insert a user
-        public async Task<AppUser> Register(RegisterDto registerDto) {
+        public async Task<RegisterDto> Register(RegisterDto registerDto) {
 
             if (await UserExists(registerDto.Username.ToLower()))
                 return null;
@@ -40,10 +40,10 @@ namespace API.Repositories {
         };
 
             await _collection.InsertOneAsync(user);
-            return user; //feedback? 
+            return registerDto; //feedback?
         }
 
-        public async Task<AppUser> Login(LoginDto loginDto) {
+        public async Task<LoginDto> Login(LoginDto loginDto) {
             var user = await _collection.Find<AppUser>(u => u.Username == loginDto.Username.ToLower()).FirstOrDefaultAsync();
 
             //check username
@@ -54,7 +54,7 @@ namespace API.Repositories {
             using var hmac = new HMACSHA512(user.PasswordSalt);
             var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
             if (user.PasswordHash.SequenceEqual(computeHash)) //compare hashed passwords. 
-                return user;
+                return loginDto;
 
             return null;
         }
