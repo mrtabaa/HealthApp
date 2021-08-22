@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using API.DTOs;
 using API.Models;
 using API.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers {
@@ -13,10 +14,12 @@ namespace API.Controllers {
             _userRepository = usersRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers() =>
             await _userRepository.GetUsers();
 
+        [Authorize]
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<AppUser>> GetUser(string id) {
             AppUser user = await _userRepository.GetUser(id);
