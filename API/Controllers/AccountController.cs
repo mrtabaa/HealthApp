@@ -20,12 +20,12 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<LoginDto>> Login(LoginDto loginDto) {
+        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto) {
             var logedInUser = await _accountRepository.Login(loginDto);
             if (logedInUser == null)
                 return Unauthorized("Invalid username or password!");
 
-            return loginDto;
+            return logedInUser;
         }
 
         [HttpDelete("delete")]
