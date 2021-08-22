@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using API.Extensions;
 using API.Interfaces;
 using API.Models;
 using API.Repositories;
 using API.Services;
 using API.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 
@@ -29,16 +33,10 @@ namespace API {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             /* #region MY ADDED CODES */
-
-            services.Configure<MongoDbSettings>(_config.GetSection(nameof(MongoDbSettings)));
-            services.AddSingleton<IMongoClient>(serviceProvider => {
-                var uri = serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value;
-                return new MongoClient(uri.ConnectionString);
-            });
-
-            services.AddScoped<IUsersRepository, UsersRepository>();
-            services.AddScoped<IAccountRepository, AccountRepository>();
-            services.AddScoped<ITokenService, TokenService>();
+            services.AddApplicationServices(_config);
+            services.AddCors();
+            services.AddControllers();
+            services.AddIdentityServices(_config);
 
             /* #endregion */
 
@@ -60,6 +58,8 @@ namespace API {
             app.UseRouting();
 
             app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
