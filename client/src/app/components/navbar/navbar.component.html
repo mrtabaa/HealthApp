@@ -1,1 +1,30 @@
-<p>navbar works!</p>
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+    <!--#region LEFT -->
+    <div fxFlex="" class="brand">
+        <mat-icon>eco</mat-icon> 
+        <a [routerLink]="[ '/' ]" routerLinkActive="router-link-active">
+            Health App
+        </a>
+    </div>
+    <!-- #endregion -->
+
+    <!--#region RIGHT -->
+
+    <!-- test logged-in or not -->
+    <button [mat-menu-trigger-for]="appMenu" mat-button>
+        USERNAME
+        <!-- put code here -->
+    </button>
+
+    <mat-menu #appMenu>
+        <mat-list>
+            <mat-list-item mat-button [routerLink]="[ '/login' ]" routerLinkActive="active">
+                Login
+            </mat-list-item>
+            <mat-list-item mat-button (click)="logout()">
+                Logout
+            </mat-list-item>
+        </mat-list>
+    </mat-menu>
+    <!-- #endregion -->
+</mat-toolbar>

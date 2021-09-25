@@ -1,0 +1,19 @@
+$buttonHoverColor: rgb(228, 227, 227);
+
+.spacer{
+    flex: 1;
+}
+.brand{
+    a{
+        color: white;
+        text-decoration: none;
+    }
+}
+mat-list{
+    padding: 0;
+    
+    mat-list-item:hover{
+        background-color: $buttonHoverColor;
+        cursor: pointer;
+    }
+}
