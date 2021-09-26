@@ -9,11 +9,21 @@ $buttonHoverColor: rgb(228, 227, 227);
         text-decoration: none;
     }
 }
-mat-list{
-    padding: 0;
-    
+#matList{
+    mat-list{
+        padding: 0;
+    }
     mat-list-item:hover{
         background-color: $buttonHoverColor;
         cursor: pointer;
+    }
+    mat-icon{
+        margin-right: 5px;
+    }
+}
+
+#logout{
+    button:hover{
+        background-color: $buttonHoverColor;
     }
 }

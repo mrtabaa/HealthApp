@@ -9,12 +9,20 @@
   text-decoration: none;
 }
 
-mat-list {
+#matList mat-list {
   padding: 0;
 }
 
-mat-list mat-list-item:hover {
+#matList mat-list-item:hover {
   background-color: #e4e3e3;
   cursor: pointer;
+}
+
+#matList mat-icon {
+  margin-right: 5px;
+}
+
+#logout button:hover {
+  background-color: #e4e3e3;
 }
 /*# sourceMappingURL=navbar.component.css.map */
