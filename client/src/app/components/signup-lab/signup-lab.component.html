@@ -1,0 +1,124 @@
+<div fxLayout="row" fxLayoutAlign="center">
+    <mat-stepper [linear]="false" [orientation]="(stepperOrientation | async)!" fxFlex fxFlex.gt-md="65">
+        <!-- #region Lab's info -->
+        <mat-step [stepControl]="LabInfoFG" label="Your Lab's Info">
+            <div fxLayout="row" fxLayoutAlign="center">
+                <form [formGroup]="LabInfoFG" fxLayout="column" fxFlex="80" fxFlex.lt-sm="100">
+                    <!-- fields= -->
+                    <mat-form-field appearance="fill">
+                        <mat-label>Lab Name</mat-label>
+                        <input matInput placeholder="Enter the name here" formControlName="labNameCtrl" required>
+                        <mat-error>This field is required.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Lab Government Code / ID</mat-label>
+                        <input matInput placeholder="Enter the Code / ID here" formControlName="labIdCtrl" required>
+                        <mat-hint>Enter your lab's Government Registration ID.</mat-hint>
+                        <mat-error>This field is required.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Lab's official email</mat-label>
+                        <input matInput placeholder="Enter the email address" formControlName="emailCtrl" required>
+                        <mat-hint>Used for Instant Verification and Login.</mat-hint>
+                        <mat-error>This field is required.</mat-error>
+                    </mat-form-field>
+
+                    <!-- button -->
+                    <div fxLayout="row" fxLayoutAlign="end center">
+                        <button [disabled]="LabInfoFG.invalid" fxFlex mat-raised-button color="primary" matStepperNext
+                            fxFlex="30" fxFlex.lt-md="50">Next
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </mat-step>
+        <!-- #endregion -->
+
+        <!-- #region Address and Contact Info -->
+        <mat-step [stepControl]="ContactInfoFG" label="Lab's Contact Info">
+            <div fxLayout="row" fxLayoutAlign="center">
+                <form [formGroup]="ContactInfoFG" fxLayout="column" fxFlex="80" fxFlex.lt-sm="100">
+                    <!-- Street address -->
+                    <mat-form-field appearance="fill">
+                        <mat-label>Street Address</mat-label>
+                        <textarea matInput formControlName="streetCtrl" placeholder="Ex. Main St" required></textarea>
+                        <mat-hint>Expandable field by Enter key.</mat-hint>
+                        <mat-error>This field is required.</mat-error>
+                        <button *ngIf="true" matSuffix mat-icon-button aria-label="Clear" (click)="clearStreet()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <!-- Unit / Apt# -->
+                    <mat-form-field appearance="fill">
+                        <mat-label>Unit / Apt#</mat-label>
+                        <input matInput formControlName="unitCtrl" placeholder="Ex. 253">
+                        <mat-hint>Optional field.</mat-hint>
+                    </mat-form-field>
+                    <!-- City & State -->
+                    <mat-form-field appearance="fill">
+                        <mat-label>City</mat-label>
+                        <input matInput formControlName="cityCtrl" placeholder="Ex. San Diego" required>
+                        <mat-error>This field is required.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>State</mat-label>
+                        <input matInput formControlName="stateCtrl" placeholder="Ex. California" required>
+                        <mat-error>This field is required.</mat-error>
+                    </mat-form-field>
+                    <!-- Zip & Country -->
+                    <mat-form-field appearance="fill">
+                        <mat-label>Zip/Postal code</mat-label>
+                        <input matInput formControlName="zipCtrl" placeholder="Ex. 92125" required>
+                        <mat-error>This field is required.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Country</mat-label>
+                        <input matInput formControlName="countryCtrl" required>
+                        <mat-error>This field is required.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Lab's Official Phone Number</mat-label>
+                        <label matPrefix>CountryCode-</label>
+                        <input matInput formControlName="phoneNumberCtrl" placeholder="858-707-1234" required>
+                        <mat-hint>The official phone number only.</mat-hint>
+                        <mat-error>Lab's official phone number is required.</mat-error>
+                    </mat-form-field>
+                    <div fxLayout="row" fxLayoutAlign="end center">
+                        <button fxFlex mat-raised-button color="primary" matStepperPrevious fxFlex="30"
+                            fxFlex.lt-md="50">Back
+                        </button>
+                        <button [disabled]="LabInfoFG.invalid" fxFlex mat-raised-button color="primary" matStepperNext
+                            fxFlex="30" fxFlex.lt-md="50">Next
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </mat-step>
+        <!-- #endregion -->
+
+        <!-- #region Contract Signature -->
+        <mat-step [stepControl]="thirdFormGroup" label="Contract Signature">
+            <form [formGroup]="thirdFormGroup">
+                <mat-form-field appearance="fill">
+                    <mat-label>Phone number</mat-label>
+                    <input matInput formControlName="thirdCtrl" placeholder="Ex. 12345678" required>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <!-- #endregion -->
+
+        <!-- #region Review and Submit -->
+        <mat-step>
+            <ng-template matStepLabel>Review and Submit</ng-template>
+            <p>You are now done.</p>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+            </div>
+        </mat-step>
+        <!-- #endregion -->
+    </mat-stepper>
+</div>

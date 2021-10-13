@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatStepperModule } from '@angular/material/stepper';
 
 const material: any[] = [
   MatToolbarModule,
@@ -20,7 +21,8 @@ const material: any[] = [
   MatSelectModule,
   MatCardModule,
   MatListModule,
-  MatDividerModule
+  MatDividerModule,
+  MatStepperModule,
 ]
 
 @NgModule({
