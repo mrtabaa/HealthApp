@@ -5,6 +5,7 @@ import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
+// import { Ng2TelInputModule } from 'ng2-tel-input';
 
 import { HomeComponent } from '../components/home/home.component';
 import { SignupLabComponent } from '../components/signup-lab/signup-lab.component';
@@ -19,7 +20,7 @@ const components = [
   LoginComponent,
   NavbarComponent,
   NoAccessComponent,
-  NotFoundComponent,
+  NotFoundComponent
 ]
 
 @NgModule({

@@ -1,9 +1,9 @@
 <div fxLayout="row" fxLayoutAlign="center">
-    <mat-stepper [linear]="false" [orientation]="(stepperOrientation | async)!" fxFlex fxFlex.gt-md="65">
+    <mat-stepper [linear]="true" [orientation]="(stepperOrientation | async)!" fxFlex fxFlex.gt-md="65">
         <!-- #region Lab's info -->
-        <mat-step [stepControl]="LabInfoFG" label="Your Lab's Info">
+        <mat-step [stepControl]="labInfoFG" label="Your Lab's Info">
             <div fxLayout="row" fxLayoutAlign="center">
-                <form [formGroup]="LabInfoFG" fxLayout="column" fxFlex="80" fxFlex.lt-sm="100">
+                <form [formGroup]="labInfoFG" fxLayout="column" fxFlex="80" fxFlex.lt-sm="100">
                     <!-- fields= -->
                     <mat-form-field appearance="fill">
                         <mat-label>Lab Name</mat-label>
@@ -25,7 +25,7 @@
 
                     <!-- button -->
                     <div fxLayout="row" fxLayoutAlign="end center">
-                        <button [disabled]="LabInfoFG.invalid" fxFlex mat-raised-button color="primary" matStepperNext
+                        <button [disabled]="labInfoFG.invalid" fxFlex mat-raised-button color="primary" matStepperNext
                             fxFlex="30" fxFlex.lt-md="50">Next
                         </button>
                     </div>
@@ -35,9 +35,9 @@
         <!-- #endregion -->
 
         <!-- #region Address and Contact Info -->
-        <mat-step [stepControl]="ContactInfoFG" label="Lab's Contact Info">
+        <mat-step [stepControl]="contactInfoFG" label="Lab's Contact Info">
             <div fxLayout="row" fxLayoutAlign="center">
-                <form [formGroup]="ContactInfoFG" fxLayout="column" fxFlex="80" fxFlex.lt-sm="100">
+                <form [formGroup]="contactInfoFG" fxLayout="column" fxFlex="80" fxFlex.lt-sm="100">
                     <!-- Street address -->
                     <mat-form-field appearance="fill">
                         <mat-label>Street Address</mat-label>
@@ -87,7 +87,7 @@
                         <button fxFlex mat-raised-button color="primary" matStepperPrevious fxFlex="30"
                             fxFlex.lt-md="50">Back
                         </button>
-                        <button [disabled]="LabInfoFG.invalid" fxFlex mat-raised-button color="primary" matStepperNext
+                        <button [disabled]="labInfoFG.invalid" fxFlex mat-raised-button color="primary" matStepperNext
                             fxFlex="30" fxFlex.lt-md="50">Next
                         </button>
                     </div>
@@ -97,8 +97,8 @@
         <!-- #endregion -->
 
         <!-- #region Contract Signature -->
-        <mat-step [stepControl]="thirdFormGroup" label="Contract Signature">
-            <form [formGroup]="thirdFormGroup">
+        <mat-step [stepControl]="contractFG" label="Contract Signature">
+            <form [formGroup]="contractFG">
                 <mat-form-field appearance="fill">
                     <mat-label>Phone number</mat-label>
                     <input matInput formControlName="thirdCtrl" placeholder="Ex. 12345678" required>

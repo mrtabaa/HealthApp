@@ -23,13 +23,13 @@ export class SignupLabComponent implements OnInit {
   stepperOrientation: Observable<StepperOrientation>;
 
   // Forms variables
-  LabInfoFG = this.fb.group({
+  labInfoFG = this.fb.group({
     labNameCtrl: ['', Validators.required],
     labIdCtrl: ['', Validators.required],
     emailCtrl: ['', Validators.required]
   });
 
-  ContactInfoFG = this.fb.group({
+  contactInfoFG = this.fb.group({
     streetCtrl: ['', Validators.required],
     unitCtrl: ['',],
     cityCtrl: ['', Validators.required],
@@ -40,7 +40,7 @@ export class SignupLabComponent implements OnInit {
     phoneNumberCtrl: ['', Validators.required]
   });
 
-  thirdFormGroup = this.fb.group({
+  contractFG = this.fb.group({
     thirdCtrl: ['', Validators.required]
   });
 
@@ -48,7 +48,7 @@ export class SignupLabComponent implements OnInit {
 
   // other methods
   checkStatus(): void {
-    console.log(this.LabInfoFG);
+    console.log(this.labInfoFG);
   }
 
   clearStreet() {
