@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { StepperOrientation } from '@angular/material/stepper';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { CountryListService } from 'src/app/services/country-list.service';
+import { ICountry } from 'src/app/models/Icountry';
 
 @Component({
   selector: 'app-signup-lab',
@@ -15,7 +17,13 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
   }]
 })
 export class SignupLabComponent implements OnInit {
-  constructor(private fb: FormBuilder, breakpointObserver: BreakpointObserver) {
+
+  filteredCountries$!: Observable<ICountry[]>;
+
+  constructor(
+    breakpointObserver: BreakpointObserver,
+    private fb: FormBuilder,
+    private countryListService: CountryListService) {
     this.stepperOrientation = breakpointObserver.observe('(min-width: 800px)')
       .pipe(map(({ matches }) => matches ? 'horizontal' : 'vertical'));
   }
@@ -23,38 +31,32 @@ export class SignupLabComponent implements OnInit {
   stepperOrientation: Observable<StepperOrientation>;
 
   // Forms variables
-  LabInfoFG = this.fb.group({
+  labInfoFG = this.fb.group({
     labNameCtrl: ['', Validators.required],
     labIdCtrl: ['', Validators.required],
     emailCtrl: ['', Validators.required]
   });
 
-  ContactInfoFG = this.fb.group({
+  contactInfoFG = this.fb.group({
     streetCtrl: ['', Validators.required],
     unitCtrl: ['',],
     cityCtrl: ['', Validators.required],
     stateCtrl: ['', Validators.required],
     zipCtrl: ['', Validators.required],
-    countryCtrl: ['', Validators.required],
+    countryCtrl: ['', { Validators: [Validators.required], asyncValidators: [], updateOn: 'change' }],
     phoneCountryCode: ['', Validators.required],
     phoneNumberCtrl: ['', Validators.required]
   });
 
-  thirdFormGroup = this.fb.group({
+  contractFG = this.fb.group({
     thirdCtrl: ['', Validators.required]
   });
 
   // Forms return values
 
   // other methods
-  onCountryChange(event: any)
-{
-  console.log(event.dialCode);
-  console.log(event.name);
-  console.log(event.iso2);
-  }
   checkStatus(): void {
-    console.log(this.LabInfoFG);
+    console.log(this.labInfoFG);
   }
 
   clearStreet() {
@@ -62,6 +64,14 @@ export class SignupLabComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.filteredCountries$ = this.CountryCtrl?.value.valueChanges
+    .pipe(
+      startWith(''),
+      map((country: string) => country ? this.countryListService.filterCountries(country) : this.countryListService.countries.slice())
+    );
   }
 
+  get CountryCtrl(): AbstractControl | null {
+    return this.contactInfoFG.get('countryCtrl');
+  }
 }
