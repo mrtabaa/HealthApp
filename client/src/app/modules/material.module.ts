@@ -10,6 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatStepperModule } from '@angular/material/stepper';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 const material: any[] = [
   MatToolbarModule,
@@ -23,6 +24,7 @@ const material: any[] = [
   MatListModule,
   MatDividerModule,
   MatStepperModule,
+  MatAutocompleteModule
 ]
 
 @NgModule({
