@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { StepperOrientation } from '@angular/material/stepper';
 import { Observable } from 'rxjs';
@@ -18,7 +18,9 @@ import { ICountry } from 'src/app/models/Icountry';
 })
 export class SignupLabComponent implements OnInit {
 
-  filteredCountries$!: Observable<ICountry[]>;
+  stepperOrientation: Observable<StepperOrientation>;
+
+  filteredCountries$!: Observable<any>;
 
   constructor(
     breakpointObserver: BreakpointObserver,
@@ -28,7 +30,15 @@ export class SignupLabComponent implements OnInit {
       .pipe(map(({ matches }) => matches ? 'horizontal' : 'vertical'));
   }
 
-  stepperOrientation: Observable<StepperOrientation>;
+  ngOnInit() {
+    this.filteredCountries$ = this.CountryFilterCtrl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this.countryListService.filterCountries(value))
+      );
+
+    this.combinePhoneNumber();
+  }
 
   // Forms variables
   labInfoFG = this.fb.group({
@@ -43,9 +53,10 @@ export class SignupLabComponent implements OnInit {
     cityCtrl: ['', Validators.required],
     stateCtrl: ['', Validators.required],
     zipCtrl: ['', Validators.required],
-    countryCtrl: ['', { Validators: [Validators.required], asyncValidators: [], updateOn: 'change' }],
-    phoneCountryCode: ['', Validators.required],
-    phoneNumberCtrl: ['', Validators.required]
+    countryFilterCtrl: ['', Validators.required],
+    phoneCountryCodeCtrl: ['', Validators.required],
+    phoneNumberCtrl: ['', Validators.required],
+    combinedPhoneNumberCtrl: ['', Validators.required]
   });
 
   contractFG = this.fb.group({
@@ -53,25 +64,52 @@ export class SignupLabComponent implements OnInit {
   });
 
   // Forms return values
+  get ContactInfoFG(): AbstractControl {
+    return this.contactInfoFG;
+  }
+  get StreetCtrlCtrl(): AbstractControl {
+    return this.contactInfoFG.get('streetCtrl') as FormControl;
+  }
+  get CountryFilterCtrl(): AbstractControl {
+    return this.contactInfoFG.get('countryFilterCtrl') as FormControl;
+  }
+  get SelectedCountryCtrl(): AbstractControl {
+    return this.contactInfoFG.get('selectedCountryCtrl') as FormControl;
+  }
+  get PhoneCountryCodeCtrl(): AbstractControl {
+    return this.contactInfoFG.get('phoneCountryCodeCtrl') as FormControl;
+  }
+  get PhoneNumberCtrl(): AbstractControl {
+    return this.contactInfoFG.get('phoneNumberCtrl') as FormControl;
+  }
+  get CombinedPhoneNumberCtrl(): AbstractControl {
+    return this.contactInfoFG.get('combinedPhoneNumberCtrl') as FormControl;
+  }
+
+  // get from DOM (onSelectionChange)
+  getSelectedCountry(country: ICountry, event: any): void {
+    if (event.isUserInput) {  // check if the option is selected
+      //set phoneNumber
+      this.PhoneCountryCodeCtrl.setValue(country.code);
+    }
+  }
+
+  // set from getSelectedCountry()
+  combinePhoneNumber(): void {
+    let code: string = "";
+    let phone: string = "";
+
+    this.PhoneCountryCodeCtrl.valueChanges.subscribe((value => {
+      code = value;
+      this.CombinedPhoneNumberCtrl.setValue(code + phone);
+    }));
+    this.PhoneNumberCtrl.valueChanges.subscribe((value => {
+      phone = value;
+      this.CombinedPhoneNumberCtrl.setValue(code + phone);
+    }));
+  }
 
   // other methods
   checkStatus(): void {
-    console.log(this.labInfoFG);
-  }
-
-  clearStreet() {
-
-  }
-
-  ngOnInit(): void {
-    this.filteredCountries$ = this.CountryCtrl?.value.valueChanges
-    .pipe(
-      startWith(''),
-      map((country: string) => country ? this.countryListService.filterCountries(country) : this.countryListService.countries.slice())
-    );
-  }
-
-  get CountryCtrl(): AbstractControl | null {
-    return this.contactInfoFG.get('countryCtrl');
   }
 }

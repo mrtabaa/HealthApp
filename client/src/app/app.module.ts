@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentModule } from './modules/component.module';
 import { FormsModule } from '@angular/forms';
+import { CountryListService } from './services/country-list.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { FormsModule } from '@angular/forms';
 
     ComponentModule,
   ],
-  providers: [],
+  providers: [CountryListService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

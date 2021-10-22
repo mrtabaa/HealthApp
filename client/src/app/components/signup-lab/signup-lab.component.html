@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="center">
-    <mat-stepper [linear]="true" [orientation]="(stepperOrientation | async)!" fxFlex fxFlex.gt-md="65">
+    <mat-stepper [linear]="false" [orientation]="(stepperOrientation | async)!" fxFlex fxFlex.gt-md="65">
         <!-- #region Lab's info -->
         <mat-step [stepControl]="labInfoFG" label="Your Lab's Info">
             <div fxLayout="row" fxLayoutAlign="center">
@@ -44,7 +44,7 @@
                         <textarea matInput formControlName="streetCtrl" placeholder="Ex. Main St" required></textarea>
                         <mat-hint>Expandable field by Enter key.</mat-hint>
                         <mat-error>This field is required.</mat-error>
-                        <button *ngIf="true" matSuffix mat-icon-button aria-label="Clear" (click)="clearStreet()">
+                        <button *ngIf="this.StreetCtrlCtrl.dirty" matSuffix mat-icon-button aria-label="Clear">
                             <mat-icon>close</mat-icon>
                         </button>
                     </mat-form-field>
@@ -65,24 +65,35 @@
                         <input matInput formControlName="stateCtrl" placeholder="Ex. California" required>
                         <mat-error>This field is required.</mat-error>
                     </mat-form-field>
-                    <!-- Zip & Country -->
+                    <!-- Zip -->
                     <mat-form-field appearance="fill">
                         <mat-label>Zip/Postal code</mat-label>
                         <input matInput formControlName="zipCtrl" placeholder="Ex. 92125" required>
                         <mat-error>This field is required.</mat-error>
                     </mat-form-field>
+                    <!-- Country -->
                     <mat-form-field appearance="fill">
-                        <mat-label>Country</mat-label>
-                        <input matInput formControlName="countryCtrl" required>
-                        <mat-error>This field is required.</mat-error>
+                        <input type="text" placeholder="Select your Country" aria-label="Country Code" matInput
+                            formControlName="countryFilterCtrl" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let country of filteredCountries$ | async" [value]="country.name"
+                                (onSelectionChange)="getSelectedCountry(country, $event)">
+                                <img class="example-option-img" aria-hidden [src]="country.flag" height="25">
+                                <span>{{country.name}}</span>
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
+                    <!-- Country-code & Phone Number -->
                     <mat-form-field appearance="fill">
                         <mat-label>Lab's Official Phone Number</mat-label>
-                        <label matPrefix>CountryCode-</label>
+                        <span *ngIf="PhoneCountryCodeCtrl.value" matPrefix>
+                            +{{PhoneCountryCodeCtrl.value}}&nbsp;&nbsp;
+                        </span>
                         <input matInput formControlName="phoneNumberCtrl" placeholder="858-707-1234" required>
                         <mat-hint>The official phone number only.</mat-hint>
                         <mat-error>Lab's official phone number is required.</mat-error>
                     </mat-form-field>
+                    <!-- #region buttons -->
                     <div fxLayout="row" fxLayoutAlign="end center">
                         <button fxFlex mat-raised-button color="primary" matStepperPrevious fxFlex="30"
                             fxFlex.lt-md="50">Back
@@ -91,18 +102,10 @@
                             fxFlex="30" fxFlex.lt-md="50">Next
                         </button>
                     </div>
+                    <!-- #endregion -->
 
-                    <mat-form-field class="example-full-width" appearance="fill">
-                        <mat-label>State</mat-label>
-                        <input matInput aria-label="State" [matAutocomplete]="auto" [formControl]="stateCtrl">
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let country of filteredCountries$ | async" [value]="country.name">
-                                <img class="example-option-img" aria-hidden [src]="country.flag" height="25">
-                                <span>{{country.name}}</span>
-                                <small>{{country.acr}}</small>
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
+                    <button (click)="checkStatus()">Check</button>
+                      <p>{{contactInfoFG.value | json}}</p>
                 </form>
             </div>
         </mat-step>
