@@ -1,4 +1,4 @@
-export interface ICountry{
+export interface ICountry {
     code: string,
     acr: string,
     name: string,

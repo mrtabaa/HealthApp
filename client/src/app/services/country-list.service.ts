@@ -8,6 +8,7 @@ export class CountryListService {
 
   constructor() { }
 
+  // filter the list based on the user's input chars
   public filterCountries(value: string): ICountry[] {
     const filterValue = value.toLowerCase();
 
@@ -106,7 +107,7 @@ export class CountryListService {
     { code: '91', acr: 'in', name: 'India (+91)', flag: '' },
     { code: '62', acr: 'id', name: 'Indonesia (+62)', flag: '' },
     { code: '964', acr: 'iq', name: 'Iraq (+964)', flag: '' },
-    { code: '98', acr: 'ir', name: 'Iran (+98)</di', flag: '' },
+    { code: '98', acr: 'ir', name: 'Iran (+98)', flag: '' },
     { code: '353', acr: 'ie', name: 'Ireland (+353)', flag: '' },
     { code: '972', acr: 'il', name: 'Israel (+972)', flag: '' },
     { code: '39', acr: 'it', name: 'Italy (+39)', flag: '' },
@@ -116,7 +117,7 @@ export class CountryListService {
     { code: '7', acr: 'kz', name: 'Kazakhstan (+7)', flag: '' },
     { code: '254', acr: 'ke', name: 'Kenya (+254)', flag: '' },
     { code: '686', acr: 'ki', name: 'Kiribati (+686)', flag: '' },
-    { code: '850', acr: 'kp', name: 'Korea - North (+850)</di', flag: '' },
+    { code: '850', acr: 'kp', name: 'Korea - North (+850)', flag: '' },
     { code: '82', acr: 'kr', name: 'Korea - South (+82)', flag: '' },
     { code: '965', acr: 'kw', name: 'Kuwait (+965)', flag: '' },
     { code: '996', acr: 'kg', name: 'Kyrgyzstan (+996)', flag: '' },
@@ -201,7 +202,7 @@ export class CountryListService {
     { code: '268', acr: 'sz', name: 'Swaziland (+268)', flag: '' },
     { code: '46', acr: 'se', name: 'Sweden (+46)', flag: '' },
     { code: '41', acr: 'ch', name: 'Switzerland (+41)', flag: '' },
-    { code: '963', acr: 'sy', name: 'Syria (+963)</di', flag: '' },
+    { code: '963', acr: 'sy', name: 'Syria (+963)', flag: '' },
     { code: '886', acr: 'tw', name: 'Taiwan (+886)', flag: '' },
     { code: '992', acr: 'tj', name: 'Tajikistan (+992)', flag: '' },
     { code: '66', acr: 'th', name: 'Thailand (+66)', flag: '' },
