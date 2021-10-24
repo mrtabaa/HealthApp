@@ -15,10 +15,10 @@ import { LoginComponent } from '../components/login/login.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { NoAccessComponent } from '../components/no-access/no-access.component';
 import { NotFoundComponent } from '../components/not-found/not-found.component';
-import { FormatLettersDirective } from '../directives/format-letters.directive';
+import { InputFormatDirective } from '../directives/input-format.directive';
 
 const components = [
-  FormatLettersDirective,
+  InputFormatDirective,
 
   HomeComponent,
   SignupLabComponent,

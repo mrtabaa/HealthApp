@@ -8,8 +8,8 @@
                     <!-- fields= -->
                     <mat-form-field appearance="outline">
                         <mat-label>Lab's name</mat-label>
-                        <input matInput placeholder="Enter the name here" formControlName="labNameCtrl" required
-                            autofocus>
+                        <input [dirInputFormat]="'uppercase'" matInput placeholder="Enter the name here"
+                            formControlName="labNameCtrl" required autofocus>
                         <mat-error>This field is required.</mat-error>
                     </mat-form-field>
                     <!-- Country -->
@@ -41,7 +41,8 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>Lab's official email</mat-label>
-                        <input matInput placeholder="Enter the email address" formControlName="emailCtrl" required>
+                        <input [dirInputFormat]="'lowercase'" matInput placeholder="Enter the email address"
+                            formControlName="emailCtrl" required>
                         <mat-hint>Used for Instant Verification and Login.</mat-hint>
                         <mat-error>This field is required.</mat-error>
                     </mat-form-field>
