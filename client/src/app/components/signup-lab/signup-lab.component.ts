@@ -31,18 +31,13 @@ export class SignupLabComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filteredCountries$ = this.CountryFilterCtrl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this.countryListService.filterCountries(value))
-      );
+    // filter country with user input
+    this.filterCountries();
 
-    this.CountryFilterCtrl.valueChanges.subscribe(value => {
-      if (value.length < 2) {
-        this.SelectedCountryCtrl.setErrors({ required: true });
-      }
-    })
+    // when no country is selected
+    this.hideCountryFlag();
 
+    // combine country code and the number
     this.combinePhoneNumber();
   }
 
@@ -94,16 +89,27 @@ export class SignupLabComponent implements OnInit {
     return this.contactInfoFG.get('combinedPhoneNumberCtrl') as FormControl;
   }
 
-  // get from DOM (onSelectionChange)
-  getSelectedCountry(country: ICountry, event: any): void {
-    if (event.isUserInput) {  // check if the option is selected
-      //set phoneNumber
-      this.SelectedCountryCtrl.setValue(country);
-      this.PhoneCountryCodeCtrl.setValue(country.code);
-    }
+  // ngOnInit
+  filterCountries(): void {
+    this.filteredCountries$ = this.CountryFilterCtrl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this.countryListService.filterCountries(value))
+      );
+  }
+
+  // if no country is selected
+  // ngOnInit
+  hideCountryFlag(): void {
+    this.CountryFilterCtrl.valueChanges.subscribe(value => {
+      if (value.length < 2) {
+        this.SelectedCountryCtrl.setErrors({ 'invalid': true });
+      }
+    })
   }
 
   // set from getSelectedCountry()
+  // ngOnInit
   combinePhoneNumber(): void {
     let code: string = "";
     let phone: string = "";
@@ -116,6 +122,15 @@ export class SignupLabComponent implements OnInit {
       phone = value;
       this.CombinedPhoneNumberCtrl.setValue(code + phone, { emitEvent: false });
     }));
+  }
+
+  // get from DOM (onSelectionChange)
+  getSelectedCountry(country: ICountry, event: any): void {
+    if (event.isUserInput) {  // check if the option is selected
+      //set phoneNumber
+      this.SelectedCountryCtrl.setValue(country);
+      this.PhoneCountryCodeCtrl.setValue(country.code);
+    }
   }
 
   // other methods
