@@ -6,6 +6,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 
+// directives
+import { FocusNextFieldDirective } from '../directives/focus-next-field.directive';
+
+// components
 import { HomeComponent } from '../components/home/home.component';
 import { SignupLabComponent } from '../components/signup-lab/signup-lab.component';
 import { LoginComponent } from '../components/login/login.component';
@@ -14,12 +18,14 @@ import { NoAccessComponent } from '../components/no-access/no-access.component';
 import { NotFoundComponent } from '../components/not-found/not-found.component';
 
 const components = [
+  FocusNextFieldDirective,
+  
   HomeComponent,
   SignupLabComponent,
   LoginComponent,
   NavbarComponent,
   NoAccessComponent,
-  NotFoundComponent,
+  NotFoundComponent
 ]
 
 @NgModule({
@@ -30,7 +36,7 @@ const components = [
     MaterialModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   exports: [components]
 })
