@@ -7,7 +7,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 
 // directives
-import { FocusNextFieldDirective } from '../directives/focus-next-field.directive';
 
 // components
 import { HomeComponent } from '../components/home/home.component';
@@ -16,10 +15,11 @@ import { LoginComponent } from '../components/login/login.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { NoAccessComponent } from '../components/no-access/no-access.component';
 import { NotFoundComponent } from '../components/not-found/not-found.component';
+import { FormatLettersDirective } from '../directives/format-letters.directive';
 
 const components = [
-  FocusNextFieldDirective,
-  
+  FormatLettersDirective,
+
   HomeComponent,
   SignupLabComponent,
   LoginComponent,
