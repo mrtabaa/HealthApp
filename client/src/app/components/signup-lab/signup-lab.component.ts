@@ -37,23 +37,31 @@ export class SignupLabComponent implements OnInit {
         map(value => this.countryListService.filterCountries(value))
       );
 
+    this.CountryFilterCtrl.valueChanges.subscribe(value => {
+      if (value.length < 2) {
+        this.SelectedCountryCtrl.setErrors({ required: true });
+      }
+    })
+
     this.combinePhoneNumber();
   }
 
   // Forms variables
   labInfoFG = this.fb.group({
     labNameCtrl: ['', Validators.required],
+    countryFilterCtrl: ['', Validators.required],
+    selectedCountryCtrl: ['', Validators.required],
     labIdCtrl: ['', Validators.required],
     emailCtrl: ['', Validators.required]
   });
 
   contactInfoFG = this.fb.group({
-    streetCtrl: ['', Validators.required],
+    streetCtrl: ['', [Validators.required, Validators.minLength(8)]],
     unitCtrl: ['',],
     cityCtrl: ['', Validators.required],
     stateCtrl: ['', Validators.required],
     zipCtrl: ['', Validators.required],
-    countryFilterCtrl: ['', Validators.required],
+    additionalInfoCtrl: ['',],
     phoneCountryCodeCtrl: ['', Validators.required],
     phoneNumberCtrl: ['', Validators.required],
     combinedPhoneNumberCtrl: ['', Validators.required]
@@ -71,10 +79,10 @@ export class SignupLabComponent implements OnInit {
     return this.contactInfoFG.get('streetCtrl') as FormControl;
   }
   get CountryFilterCtrl(): AbstractControl {
-    return this.contactInfoFG.get('countryFilterCtrl') as FormControl;
+    return this.labInfoFG.get('countryFilterCtrl') as FormControl;
   }
   get SelectedCountryCtrl(): AbstractControl {
-    return this.contactInfoFG.get('selectedCountryCtrl') as FormControl;
+    return this.labInfoFG.get('selectedCountryCtrl') as FormControl;
   }
   get PhoneCountryCodeCtrl(): AbstractControl {
     return this.contactInfoFG.get('phoneCountryCodeCtrl') as FormControl;
@@ -90,6 +98,7 @@ export class SignupLabComponent implements OnInit {
   getSelectedCountry(country: ICountry, event: any): void {
     if (event.isUserInput) {  // check if the option is selected
       //set phoneNumber
+      this.SelectedCountryCtrl.setValue(country);
       this.PhoneCountryCodeCtrl.setValue(country.code);
     }
   }
@@ -101,15 +110,27 @@ export class SignupLabComponent implements OnInit {
 
     this.PhoneCountryCodeCtrl.valueChanges.subscribe((value => {
       code = value;
-      this.CombinedPhoneNumberCtrl.setValue(code + phone);
+      this.CombinedPhoneNumberCtrl.setValue(code + phone, { emitEvent: false });
     }));
     this.PhoneNumberCtrl.valueChanges.subscribe((value => {
       phone = value;
-      this.CombinedPhoneNumberCtrl.setValue(code + phone);
+      this.CombinedPhoneNumberCtrl.setValue(code + phone, { emitEvent: false });
     }));
   }
 
   // other methods
   checkStatus(): void {
+  }
+
+  clearStreet() {
+    this.StreetCtrlCtrl.setValue("");
+    this.StreetCtrlCtrl.reset();
+  }
+  clearCountry() {
+    this.CountryFilterCtrl.setValue("");
+  }
+
+  clearFlag() {
+    this.SelectedCountryCtrl.setErrors({ required: true });
   }
 }
