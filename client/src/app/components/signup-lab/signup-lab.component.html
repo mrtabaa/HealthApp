@@ -8,19 +8,21 @@
                     <!-- fields= -->
                     <mat-form-field appearance="outline">
                         <mat-label>Lab's name</mat-label>
-                        <input matInput placeholder="Enter the name here" formControlName="labNameCtrl" required autofocus appFocusNextField>
+                        <input matInput placeholder="Enter the name here" formControlName="labNameCtrl" required
+                            autofocus>
                         <mat-error>This field is required.</mat-error>
                     </mat-form-field>
                     <!-- Country -->
-                    <mat-form-field appearance="outline" flexLayout="row">
+                    <mat-form-field #countryField appearance="outline" flexLayout="row">
                         <mat-label>Lab's country</mat-label>
                         <img fxFlex="50px" *ngIf="SelectedCountryCtrl.valid" aria-hidden
                             [src]="SelectedCountryCtrl.value.flag" height="25">
                         &nbsp;
-                        <input fxFlex="200px" type="text" placeholder="Type to search the country"
+                        <input #inputElement fxFlex="200px" type="text" placeholder="Type to search the country"
                             aria-label="Country Code" matInput formControlName="countryFilterCtrl"
                             [matAutocomplete]="auto" (click)="clearCountry()" required>
-                        <mat-autocomplete #auto="matAutocomplete">
+                        <mat-autocomplete #auto="matAutocomplete"
+                            (optionSelected)="moveFocusToNext(countryField, inputElement, governmentIdField, governmentIdInput)">
                             <mat-option *ngFor="let country of filteredCountries$ | async" [value]="country.shortName"
                                 (onSelectionChange)="getSelectedCountry(country, $event)">
                                 <img aria-hidden [src]="country.flag" height="25">
@@ -30,9 +32,10 @@
                         </mat-autocomplete>
                         <mat-error>This field is required.</mat-error>
                     </mat-form-field>
-                    <mat-form-field appearance="outline">
+                    <mat-form-field #governmentIdField appearance="outline">
                         <mat-label>Lab's Government Code / ID</mat-label>
-                        <input matInput placeholder="Enter the Code / ID here" formControlName="labIdCtrl" required>
+                        <input #governmentIdInput matInput placeholder="Enter the Code / ID here"
+                            formControlName="labIdCtrl" required>
                         <mat-hint>Enter your lab's Government Registration ID.</mat-hint>
                         <mat-error>This field is required.</mat-error>
                     </mat-form-field>
