@@ -16,7 +16,7 @@ export class CountryListService {
   }
 
   countries = [
-    { code: '64', acr: 'nz', name: 'New Zealand (+64)', shortName: 'New Zealand',flag: 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Flag_of_Arkansas.svg' },
+    { code: '64', acr: 'nz', name: 'New Zealand (+64)', shortName: 'New Zealand', flag: 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Flag_of_Arkansas.svg' },
     { code: '61', acr: 'au', name: 'Australia (+61)', shortName: 'Australia', flag: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Flag_of_California.svg' },
     { code: '1', acr: 'us', name: 'USA (+1)', shortName: 'USA', flag: '' },
     { code: '44', acr: 'gb', name: 'UK (+44)', shortName: 'UK', flag: '' },
@@ -229,6 +229,6 @@ export class CountryListService {
     { code: '969', acr: 'ye', name: 'Yemen (North)(+969)', shortName: 'Nort', flag: '' },
     { code: '967', acr: 'ye', name: 'Yemen (South)(+967)', shortName: 'Sout', flag: '' },
     { code: '260', acr: 'zm', name: 'Zambia (+260)', shortName: 'Zambia', flag: '' },
-    { code: '263', acr: 'zw', name: 'Zimbabwe (+263)', shortName: 'Zimbabwe ',  flag: '' }
+    { code: '263', acr: 'zw', name: 'Zimbabwe (+263)', shortName: 'Zimbabwe ', flag: '' }
   ];
 }
