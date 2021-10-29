@@ -16,9 +16,11 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
 import { NoAccessComponent } from '../components/no-access/no-access.component';
 import { NotFoundComponent } from '../components/not-found/not-found.component';
 import { InputFormatDirective } from '../directives/input-format.directive';
+import { ClearControlFieldDirective } from '../directives/clear-control-field.directive';
 
 const components = [
   InputFormatDirective,
+  ClearControlFieldDirective,
 
   HomeComponent,
   SignupLabComponent,
