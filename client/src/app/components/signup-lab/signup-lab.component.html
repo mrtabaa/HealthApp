@@ -13,14 +13,14 @@
                         <mat-error>This field is required.</mat-error>
                     </mat-form-field>
                     <!-- Country -->
-                    <mat-form-field #countryField appearance="outline" flexLayout="row">
+                    <mat-form-field [dirClearControlField]="CountryFilterCtrl" #countryField appearance="outline" flexLayout="row">
                         <mat-label>Lab's country</mat-label>
                         <img fxFlex="50px" *ngIf="SelectedCountryCtrl.valid" aria-hidden
                             [src]="SelectedCountryCtrl.value.flag" height="25">
                         &nbsp;
                         <input #inputElement fxFlex="200px" type="text" placeholder="Type to search the country"
                             aria-label="Country Code" matInput formControlName="countryFilterCtrl"
-                            [matAutocomplete]="auto" (click)="clearCountry()" required>
+                            [matAutocomplete]="auto" required>
                         <mat-autocomplete #auto="matAutocomplete"
                             (optionSelected)="moveFocusToNext(countryField, inputElement, governmentIdField, governmentIdInput)">
                             <mat-option *ngFor="let country of filteredCountries$ | async" [value]="country.shortName"

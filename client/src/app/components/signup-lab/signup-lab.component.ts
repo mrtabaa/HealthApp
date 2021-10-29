@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, MinLengthValidator, Validators } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { StepperOrientation } from '@angular/material/stepper';
 import { Observable } from 'rxjs';
@@ -58,7 +58,7 @@ export class SignupLabComponent implements OnInit {
     zipCtrl: ['', Validators.required],
     additionalInfoCtrl: ['',],
     phoneCountryCodeCtrl: ['', Validators.required],
-    phoneNumberCtrl: ['', Validators.required],
+    phoneNumberCtrl: ['', [Validators.required, Validators.minLength(8)]],
     combinedPhoneNumberCtrl: ['', Validators.required]
   });
 
@@ -143,14 +143,12 @@ export class SignupLabComponent implements OnInit {
 
   // other methods
   checkStatus(): void {
+    console.log(this.PhoneNumberCtrl);
   }
 
   clearStreet() {
     this.StreetCtrlCtrl.setValue("");
     this.StreetCtrlCtrl.reset();
-  }
-  clearCountry() {
-    this.CountryFilterCtrl.setValue("");
   }
 
   clearFlag() {
