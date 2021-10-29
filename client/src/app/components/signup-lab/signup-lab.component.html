@@ -22,12 +22,12 @@
                             aria-label="Country Code" matInput formControlName="countryFilterCtrl"
                             [matAutocomplete]="auto" required>
                         <mat-autocomplete #auto="matAutocomplete"
-                            (optionSelected)="moveFocusToNext(countryField, inputElement, governmentIdField, governmentIdInput)">
-                            <mat-option *ngFor="let country of filteredCountries$ | async" [value]="country.shortName"
+                            (optionSelected)="moveFocusToNext(countryField, inputElement, governmentIdField, governmentIdInput)" fxLayout="row" fxLayoutAlign="start center">
+                            <mat-option class="country-option" *ngFor="let country of filteredCountries$ | async" [value]="country.shortName"
                                 (onSelectionChange)="getSelectedCountry(country, $event)">
-                                <img aria-hidden [src]="country.flag" height="25">
+                                <img fxFlex="3" aria-hidden [src]="'/assets/images/flags/4x3/' + country.acr +'.svg'" class="flag">
                                 &nbsp;
-                                <span>{{country.name}}</span>
+                                <span fxFlex="30">{{country.name}}</span>
                             </mat-option>
                         </mat-autocomplete>
                         <mat-error>This field is required.</mat-error>

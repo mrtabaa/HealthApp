@@ -13,4 +13,8 @@ button {
 textarea {
   height: 2.5em;
 }
+
+.country-option {
+  border: 1px solid #f0f0f0;
+}
 /*# sourceMappingURL=signup-lab.component.css.map */
