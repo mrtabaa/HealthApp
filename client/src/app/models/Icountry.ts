@@ -3,5 +3,4 @@ export interface ICountry {
     acr: string | null,
     name: string | null,
     shortName: string | null,
-    flag: string | null
 }
