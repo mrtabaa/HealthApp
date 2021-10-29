@@ -13,7 +13,7 @@
                         <mat-error>This field is required.</mat-error>
                     </mat-form-field>
                     <!-- Country -->
-                    <mat-form-field [dirClearControlField]="CountryFilterCtrl" #countryField appearance="outline" flexLayout="row">
+                    <mat-form-field [dirClearControlFieldByClick]="CountryFilterCtrl" #countryField appearance="outline" flexLayout="row">
                         <mat-label>Lab's country</mat-label>
                         <img fxFlex="50px" *ngIf="SelectedCountryCtrl.valid" aria-hidden
                             [src]="SelectedCountryCtrl.value.flag" height="25">

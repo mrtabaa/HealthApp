@@ -2,14 +2,14 @@ import { Directive, HostListener, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
 @Directive({
-  selector: '[dirClearControlField]'
+  selector: '[dirClearControlFieldByClick]'
 })
-export class ClearControlFieldDirective {
+export class ClearControlFieldByClick {
 
   constructor() { }
 
   // send control from DOM through this line, e.g, [dirClearControlField]="CountryFilterCtrl"
-  @Input('dirClearControlField') control!: AbstractControl;
+  @Input('dirClearControlFieldByClick') control!: AbstractControl;
 
   @HostListener('click', ['$event'])
   public onClick(): void {
