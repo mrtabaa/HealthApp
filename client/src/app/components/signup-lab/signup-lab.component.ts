@@ -18,10 +18,12 @@ import { ICountry } from 'src/app/models/Icountry';
 })
 export class SignupLabComponent implements OnInit {
 
+  //#region global variables
   stepperOrientation: Observable<StepperOrientation>;
-
   filteredCountries$!: Observable<any>;
+  //#endregion
 
+  //#region Base
   constructor(
     breakpointObserver: BreakpointObserver,
     private fb: FormBuilder,
@@ -40,14 +42,18 @@ export class SignupLabComponent implements OnInit {
     // combine country code and the number
     this.combinePhoneNumber();
   }
+  //#endregion
 
-  // Forms variables
+  //#region Forms Group/controler
   labInfoFG = this.fb.group({
     labNameCtrl: ['', Validators.required],
     countryFilterCtrl: ['', Validators.required],
     selectedCountryCtrl: ['', Validators.required],
-    labIdCtrl: ['', Validators.required],
-    emailCtrl: ['', Validators.required]
+    governmentIdCtrl: ['', Validators.required],
+    emailCtrl: ['', [
+      Validators.required,
+      Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+    ]]
   });
 
   contactInfoFG = this.fb.group({
@@ -65,20 +71,24 @@ export class SignupLabComponent implements OnInit {
   contractFG = this.fb.group({
     thirdCtrl: ['', Validators.required]
   });
+  //#endregion
 
-  // Forms return values
-  get ContactInfoFG(): AbstractControl {
-    return this.contactInfoFG;
-  }
-  get StreetCtrlCtrl(): AbstractControl {
-    return this.contactInfoFG.get('streetCtrl') as FormControl;
-  }
+  //#region Forms Properties
+  // Lab's Info
   get CountryFilterCtrl(): AbstractControl {
     return this.labInfoFG.get('countryFilterCtrl') as FormControl;
   }
   get SelectedCountryCtrl(): AbstractControl {
     return this.labInfoFG.get('selectedCountryCtrl') as FormControl;
   }
+  get GovernmentIdCtrl(): AbstractControl {
+    return this.labInfoFG.get('governmentIdCtrl') as FormControl;
+  }
+  get EmailCtrl(): AbstractControl {
+    return this.labInfoFG.get('emailCtrl') as FormControl;
+  }
+
+  // Contact Info
   get PhoneCountryCodeCtrl(): AbstractControl {
     return this.contactInfoFG.get('phoneCountryCodeCtrl') as FormControl;
   }
@@ -88,7 +98,19 @@ export class SignupLabComponent implements OnInit {
   get CombinedPhoneNumberCtrl(): AbstractControl {
     return this.contactInfoFG.get('combinedPhoneNumberCtrl') as FormControl;
   }
+  get StreetCtrlCtrl(): AbstractControl {
+    return this.contactInfoFG.get('streetCtrl') as FormControl;
+  }
 
+  // Sign Contract
+  // ...
+  // Review and Submit
+  // ...
+
+  //#endregion
+
+
+  //#region Methods
   // ngOnInit
   filterCountries(): void {
     this.filteredCountries$ = this.CountryFilterCtrl.valueChanges
@@ -154,4 +176,5 @@ export class SignupLabComponent implements OnInit {
   clearFlag() {
     this.SelectedCountryCtrl.setErrors({ required: true });
   }
+  //#endregion
 }

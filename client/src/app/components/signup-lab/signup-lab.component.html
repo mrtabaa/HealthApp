@@ -5,7 +5,7 @@
         <mat-step [stepControl]="labInfoFG" label="Your Lab's Info">
             <div fxLayout="row" fxLayoutAlign="center">
                 <form [formGroup]="labInfoFG" fxLayout="column" fxFlex="80" fxFlex.lt-sm="100">
-                    <!-- fields= -->
+                    <!-- Lab's name= -->
                     <mat-form-field appearance="outline">
                         <mat-label>Lab's name</mat-label>
                         <input [dirInputFormat]="'uppercase'" matInput placeholder="Enter the name here"
@@ -13,7 +13,8 @@
                         <mat-error>This field is required.</mat-error>
                     </mat-form-field>
                     <!-- Country -->
-                    <mat-form-field [dirClearControlFieldByClick]="CountryFilterCtrl" #countryField appearance="outline" flexLayout="row">
+                    <mat-form-field [dirClearControlFieldByClick]="CountryFilterCtrl" #countryField appearance="outline"
+                        flexLayout="row">
                         <mat-label>Lab's country</mat-label>
                         <img fxFlex="50px" *ngIf="SelectedCountryCtrl.valid" aria-hidden
                             [src]="'/assets/images/flags/4x3/' + SelectedCountryCtrl.value.acr +'.svg'" height="25">
@@ -23,15 +24,18 @@
                             [matAutocomplete]="auto" required>
                         <mat-autocomplete #auto="matAutocomplete"
                             (optionSelected)="moveFocusToNext(countryField, inputElement, governmentIdField, governmentIdInput)">
-                            <mat-option class="country-option" *ngFor="let country of filteredCountries$ | async" [value]="country.shortName"
-                                (onSelectionChange)="getSelectedCountry(country, $event)" fxLayout="row" fxLayoutAlign="start center">
-                                <img fxFlex="3.5" aria-hidden [src]="'/assets/images/flags/4x3/' + country.acr +'.svg'" class="flag">
-                                &nbsp;&nbsp;                                
+                            <mat-option class="country-option" *ngFor="let country of filteredCountries$ | async"
+                                [value]="country.shortName" (onSelectionChange)="getSelectedCountry(country, $event)"
+                                fxLayout="row" fxLayoutAlign="start center">
+                                <img fxFlex="3.5" aria-hidden [src]="'/assets/images/flags/4x3/' + country.acr +'.svg'"
+                                    class="flag">
+                                &nbsp;&nbsp;
                                 <span fxFlex>{{country.name}}</span>
                             </mat-option>
                         </mat-autocomplete>
                         <mat-error>This field is required.</mat-error>
                     </mat-form-field>
+                    <!-- Government ID -->
                     <mat-form-field #governmentIdField appearance="outline">
                         <mat-label>Lab's Government Code / ID</mat-label>
                         <input #governmentIdInput matInput placeholder="Enter the Code / ID here"
@@ -39,12 +43,14 @@
                         <mat-hint>Enter your lab's Government Registration ID.</mat-hint>
                         <mat-error>This field is required.</mat-error>
                     </mat-form-field>
+                    <!-- Email -->
                     <mat-form-field appearance="outline">
                         <mat-label>Lab's official email</mat-label>
                         <input [dirInputFormat]="'lowercase'" matInput placeholder="Enter the email address"
                             formControlName="emailCtrl" required>
                         <mat-hint>Used for Instant Verification and Login.</mat-hint>
-                        <mat-error>This field is required.</mat-error>
+                        <mat-error *ngIf="EmailCtrl.hasError('required')">This field is required.</mat-error>
+                        <mat-error *ngIf="EmailCtrl.hasError('pattern')">Please enter a valid email address.</mat-error>
                     </mat-form-field>
 
                     <!-- button -->
