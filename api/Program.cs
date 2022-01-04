@@ -1,6 +1,6 @@
-var builder = WebApplication.CreateBuilder(args);
 
 #region Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
 
 // auto-generated codes
 builder.Services.AddControllers();
