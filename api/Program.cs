@@ -4,18 +4,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 // auto-generated codes
 builder.Services.AddControllers();
-builder.Services.AddApplicationServices();
 
 // added codes
+builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection(nameof(MongoDbSettings)));
+builder.Services.AddSingleton<IMongoClient>(serviceProvider => {
+    var uri = serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value;
+    return new MongoClient(uri.ConnectionString);
+});
+#endregion
 
-#endregion 
 
 #region Configure the HTTP request pipeline.
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+if (app.Environment.IsDevelopment()) {
 
 }
 
