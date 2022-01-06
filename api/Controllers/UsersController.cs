@@ -8,13 +8,13 @@ public class UsersController : BaseApiController {
     //api/users/jsonObject
     [HttpPost]
     public async Task<ActionResult<AppUser>> CreateUser(AppUser userIn) =>
-    await _usersRepository.CreateUser(userIn);
+        await _usersRepository.CreateUser(userIn);
 
     //api/users
     // [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers() =>
-    await _usersRepository.GetUsers();
+        await _usersRepository.GetUsers();
 
     //api/users/3
     // [Authorize]
@@ -24,5 +24,20 @@ public class UsersController : BaseApiController {
         AppUser user = await _usersRepository.GetUser(id);
         return user == null ? null : user; // improve the code by returning NotFound() instead of null
     }
+
+    // [Authorize]
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<AppUser>> DeleteUser(string id) =>
+        await _usersRepository.DeleteUser(id);
+
+    // [Authorize]
+    [HttpPut("{id}")]
+    public async Task ReplaceUser(string id, AppUser userIn) =>
+        await _usersRepository.ReplaceUser(id, userIn);
+
+    // [Authorize]
+    [HttpPatch("{id}")]
+    public async Task UpdateUser(string id, AppUser userIn) =>
+        await _usersRepository.UpdateUser(id, userIn);
 
 }
