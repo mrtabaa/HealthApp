@@ -1,16 +1,22 @@
 
+
 #region Add services to the container.
+
 var builder = WebApplication.CreateBuilder(args);
 
-// auto-generated codes
+// AUTO-GENERATED CODES //
 builder.Services.AddControllers();
 
-// added codes
+// ADDED CODES //
+// MongoDbSettings
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection(nameof(MongoDbSettings)));
 builder.Services.AddSingleton<IMongoClient>(serviceProvider => {
     var uri = serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value;
     return new MongoClient(uri.ConnectionString);
 });
+
+// Repositories
+builder.Services.AddSingleton<IUsersRepository, UsersRepository>();
 #endregion
 
 
@@ -23,6 +29,8 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
