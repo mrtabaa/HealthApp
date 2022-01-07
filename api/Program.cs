@@ -19,6 +19,11 @@ builder.Services.AddSingleton<IMongoClient>(serviceProvider => {
 builder.Services.AddSingleton<IUsersRepository, UsersRepository>();
 #endregion
 
+// Others
+builder.Services.AddCors(options => {
+    options.AddDefaultPolicy(policy => policy.AllowAnyHeader()
+        .AllowAnyMethod().WithOrigins("https://localhost:4200"));
+});
 
 #region Configure the HTTP request pipeline.
 
@@ -29,6 +34,8 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 
