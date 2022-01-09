@@ -1,4 +1,4 @@
-namespace API.Settings;
+namespace api.Settings;
 public interface IMongoDbSettings {
     string? ConnectionString { get; init; }
 }

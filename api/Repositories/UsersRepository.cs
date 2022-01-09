@@ -13,7 +13,7 @@ public class UsersRepository : IUsersRepository {
     #endregion
 
     #region CRUD
-    public async Task<AppUserDto?> CreateUser(AppUserDto userIn) {
+    public async Task<LabRegisterDto?> CreateUser(LabRegisterDto userIn) {
         if (await UserExists(userIn.Username!)) return null; // username already exists
 
         using var hmac = new HMACSHA512();
@@ -31,10 +31,10 @@ public class UsersRepository : IUsersRepository {
         return userIn;
     }
 
-    public async Task<AppUserDto> GetUser(string id) {
+    public async Task<LabRegisterDto> GetUser(string id) {
         var user = await _collection.Find<AppUser>(u => u.Id == id).FirstOrDefaultAsync();
 
-        return new AppUserDto {
+        return new LabRegisterDto {
             id = user.Id,
             Username = user.Username,
             Email = user.Email,
@@ -42,12 +42,12 @@ public class UsersRepository : IUsersRepository {
         };
     }
 
-    public async Task<List<AppUserDto>> GetUsers() {
+    public async Task<List<LabRegisterDto>> GetUsers() {
         var users = await _collection.Find(new BsonDocument()).ToListAsync();
 
-        var usersDto = new List<AppUserDto>();
+        var usersDto = new List<LabRegisterDto>();
         foreach (var user in users) {
-            var userDto = new AppUserDto();
+            var userDto = new LabRegisterDto();
             userDto.id = user.Id;
             userDto.Username = user.Username;
             userDto.Email = user.Email;
@@ -62,7 +62,7 @@ public class UsersRepository : IUsersRepository {
     public async Task DeleteUser(string id) =>
         await _collection.DeleteOneAsync<AppUser>(user => user.Id == id);
 
-    public async Task<bool> UpdateOne(AppUserDto updatedUser) {
+    public async Task<bool> UpdateOne(LabRegisterDto updatedUser) {
         if (await UserExists(updatedUser.Username!)) return true; // if True, fire BadRequest in Controller
 
         var bson = Builders<AppUser>.Update
