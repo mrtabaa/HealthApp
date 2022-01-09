@@ -16,7 +16,7 @@ builder.Services.AddSingleton<IMongoClient>(serviceProvider => {
 });
 
 // Repositories
-builder.Services.AddSingleton<IUsersRepository, UsersRepository>();
+builder.Services.AddSingleton<ILabsRepository, LabsRepository>();
 #endregion
 
 // Others
