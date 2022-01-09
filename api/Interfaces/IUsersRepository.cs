@@ -1,9 +1,8 @@
 namespace api.Repositories;
 public interface IUsersRepository {
-    Task<AppUser> CreateUser(AppUser userIn);
-    Task<AppUser> GetUser(string id);
-    Task<List<AppUser>> GetUsers();
-    Task<AppUser> DeleteUser(string id);
-    Task ReplaceUser(string id, AppUser userIn);
-    Task UpdateUser(string id, AppUser userIn);
+    Task<AppUserDto?> CreateUser(AppUserDto userIn);
+    Task<AppUserDto> GetUser(string id);
+    Task<List<AppUserDto>> GetUsers();
+    Task DeleteUser(string id);
+    Task<bool> UpdateOne(AppUserDto userDto);
 }
