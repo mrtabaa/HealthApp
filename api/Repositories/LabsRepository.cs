@@ -13,6 +13,11 @@ public class LabsRepository : ILabsRepository {
     #endregion
 
     #region CRUD
+    const string takenEmail = "Email is taken.";
+    const string takenPhone = "Phone number is taken.";
+    const string wrongEmail = "This email is not registered";
+    
+    #region Account
     public async Task<string?> CreateLab(LabRegisterDto labIn) {
         var existsMessage = await PhoneOrEmailExists(labIn!);
         if (existsMessage != null)
@@ -34,10 +39,9 @@ public class LabsRepository : ILabsRepository {
         return null;
     }
 
-    // public async Task<LabLoginDto?> LoginLab(LabLoginDto labIn) {
+    #endregion Account
 
-    // }
-
+    #region LabsManagement
     public async Task<LabRegisterDto> GetLab(string id) {
         var lab = await _collection.Find<Lab>(lab => lab.Id == id).FirstOrDefaultAsync();
 
@@ -83,23 +87,25 @@ public class LabsRepository : ILabsRepository {
 
         return null;
     }
+    #endregion LabsManagement
 
-    #endregion
+    #endregion CRUD
 
     #region Helper methods
+
     private async Task<string?> PhoneOrEmailExists(LabRegisterDto labIn) {
         if (null != await _collection.Find<Lab>(lab => lab.Email == labIn.Email).FirstOrDefaultAsync())
-            return "Email is taken.";
+            return takenEmail;
         if (null != await _collection.Find<Lab>(lab => lab.Phone == labIn.Phone).FirstOrDefaultAsync())
-            return "Phone number is taken.";
+            return takenPhone;
         return null;
     }
 
     private async Task<string?> PhoneOrEmailExists(LabUpdateDto labIn) {
         if (null != await _collection.Find<Lab>(lab => lab.Email == labIn.Email).FirstOrDefaultAsync())
-            return "Email is taken.";
+            return takenEmail;
         if (null != await _collection.Find<Lab>(lab => lab.Phone == labIn.Phone).FirstOrDefaultAsync())
-            return "Phone number is taken.";
+            return takenPhone;
         return null;
     }
 
