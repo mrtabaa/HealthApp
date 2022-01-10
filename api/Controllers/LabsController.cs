@@ -34,8 +34,11 @@ public class LabsController : BaseApiController {
 
     // [Authorize]
     [HttpPatch("update")]
-    public async Task<ActionResult?> UpdateLab(LabRegisterUpdateDto updateDtoIn) =>
+    public async Task<ActionResult<LabRegisterUpdateDto>> UpdateLab(LabRegisterUpdateDto updateDtoIn) {
         // UpdateOne updates values
-        // returns True if user already exists to fire BadRequest or OK
-        await _labsRepository.UpdateLab(updateDtoIn) == null ? BadRequest("Name is teken.") : Ok("Success");
+        // returns Null if user already exists to fire BadRequest or OK
+        var updatedLab = await _labsRepository.UpdateLab(updateDtoIn);
+        return updatedLab == null ? BadRequest("Name is teken.") : updatedLab;
+
+    }
 }
