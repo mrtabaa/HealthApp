@@ -39,6 +39,20 @@ public class LabsRepository : ILabsRepository {
         return null;
     }
 
+    public async Task<LabLoginDto?> LoginLab(LabLoginDto labIn) {
+        var lab = await _collection.Find<Lab>(lab => lab.Email == labIn.Email).FirstOrDefaultAsync();
+
+        if (lab == null)
+            return null;
+
+        using var hmac = new HMACSHA512(lab.PasswordSalt!);
+        var ComputeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(labIn.Password!));
+        if(lab.PasswordHash!.SequenceEqual(ComputeHash))
+            return labIn;
+
+        return null;
+    }
+
     #endregion Account
 
     #region LabsManagement

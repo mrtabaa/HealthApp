@@ -5,6 +5,7 @@ public class LabsController : BaseApiController {
         _labsRepository = labsRepository;
     }
 
+    #region Account
     //api/labs/jsonObject
     [HttpPost("register")]
     public async Task<ActionResult<LabRegisterDto>> Register(LabRegisterDto labIn) {
@@ -12,12 +13,17 @@ public class LabsController : BaseApiController {
         return resultMessage == null ? labIn : BadRequest(resultMessage);
     }
 
-    // [HttpPost("login")]
-    // public async Task<ActionResult<LabLoginDto>> Login(LabLoginDto labIn) {
-    //     return await _labsRepository.LoginLab(labIn) == null
-    //     ? BadRequest("Email is teken.") : labIn;
-    // }
+    [HttpPost("login")]
+    public async Task<ActionResult<LabLoginDto>> Login(LabLoginDto labIn) {
+        var logedInUser = await _labsRepository.LoginLab(labIn);
+        if (logedInUser == null)
+            return Unauthorized("Invalid username or password!");
+        return logedInUser;
+    }
 
+    #endregion Account
+
+    #region LabsManagement
 
     //api/labs
     // [AllowAnonymous]
@@ -47,4 +53,5 @@ public class LabsController : BaseApiController {
         var resultMessage = await _labsRepository.UpdateLab(updateDtoIn);
         return resultMessage == null ? updateDtoIn : BadRequest(resultMessage);
     }
+    #endregion LabsManagement
 }
