@@ -14,13 +14,13 @@ public class LabsRepository : ILabsRepository {
 
     #region CRUD
     public async Task<LabRegisterUpdateDto?> CreateLab(LabRegisterUpdateDto labIn) {
-        if (await LabExists(labIn.Name!)) return null; // labName already exists
+        if (await LabExists(labIn.Email!)) return null; // labName already exists
 
         using var hmac = new HMACSHA512();
 
         // prevent ComputeHash exception
         var lab = new Lab {
-            Name = labIn.Name,
+            Labname = labIn.Labname,
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(labIn.Password!)),
             PasswordSalt = hmac.Key,
             Email = labIn.Email,
@@ -32,13 +32,17 @@ public class LabsRepository : ILabsRepository {
         return labIn;
     }
 
+    // public async Task<LabLoginDto?> LoginLab(LabLoginDto labIn) {
+
+    // }
+
     public async Task<LabRegisterUpdateDto> GetLab(string id) {
         var lab = await _collection.Find<Lab>(lab => lab.Id == id).FirstOrDefaultAsync();
 
         return new LabRegisterUpdateDto {
             Id = lab.Id,
-            Name = lab.Name,
             Email = lab.Email,
+            Labname = lab.Labname,
             Phone = lab.Phone
         };
     }
@@ -50,8 +54,8 @@ public class LabsRepository : ILabsRepository {
         foreach (var lab in labs) {
             var labDto = new LabRegisterUpdateDto();
             labDto.Id = lab.Id;
-            labDto.Name = lab.Name;
             labDto.Email = lab.Email;
+            labDto.Labname = lab.Labname;
             labDto.Phone = lab.Phone;
 
             labsDto.Add(labDto);
@@ -64,11 +68,11 @@ public class LabsRepository : ILabsRepository {
         await _collection.DeleteOneAsync<Lab>(lab => lab.Id == id);
 
     public async Task<LabRegisterUpdateDto?> UpdateLab(LabRegisterUpdateDto updatedlab) {
-        if (await LabExists(updatedlab.Name!)) return null; // if True, fire BadRequest in Controller
+        if (await LabExists(updatedlab.Email!)) return null; // if True, fire BadRequest in Controller
 
         var bson = Builders<Lab>.Update
-        .Set(lab => lab.Name, updatedlab.Name)
         .Set(e => e.Email, updatedlab.Email)
+        .Set(lab => lab.Labname, updatedlab.Labname)
         .Set(p => p.Phone, updatedlab.Phone);
 
         await _collection.UpdateOneAsync<Lab>(l => l.Id == updatedlab.Id, bson);
@@ -79,8 +83,8 @@ public class LabsRepository : ILabsRepository {
     #endregion
 
     #region Helper methods
-    private async Task<bool> LabExists(string labNameIn) =>
-        null == await _collection.Find<Lab>(lab => lab.Name == labNameIn).FirstOrDefaultAsync()
+    private async Task<bool> LabExists(string labEmailIn) =>
+        null == await _collection.Find<Lab>(lab => lab.Email == labEmailIn).FirstOrDefaultAsync()
         ? false : true;
 
     #endregion
