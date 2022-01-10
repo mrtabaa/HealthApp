@@ -20,7 +20,7 @@ public class LabsRepository : ILabsRepository {
 
         // prevent ComputeHash exception
         var lab = new Lab {
-            Labname = labIn.Labname,
+            LabName = labIn.LabName,
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(labIn.Password!)),
             PasswordSalt = hmac.Key,
             Email = labIn.Email,
@@ -42,7 +42,7 @@ public class LabsRepository : ILabsRepository {
         return new LabRegisterUpdateDto {
             Id = lab.Id,
             Email = lab.Email,
-            Labname = lab.Labname,
+            LabName = lab.LabName,
             Phone = lab.Phone
         };
     }
@@ -55,7 +55,7 @@ public class LabsRepository : ILabsRepository {
             var labDto = new LabRegisterUpdateDto();
             labDto.Id = lab.Id;
             labDto.Email = lab.Email;
-            labDto.Labname = lab.Labname;
+            labDto.LabName = lab.LabName;
             labDto.Phone = lab.Phone;
 
             labsDto.Add(labDto);
@@ -72,7 +72,7 @@ public class LabsRepository : ILabsRepository {
 
         var bson = Builders<Lab>.Update
         .Set(e => e.Email, updatedlab.Email)
-        .Set(lab => lab.Labname, updatedlab.Labname)
+        .Set(lab => lab.LabName, updatedlab.LabName)
         .Set(p => p.Phone, updatedlab.Phone);
 
         await _collection.UpdateOneAsync<Lab>(l => l.Id == updatedlab.Id, bson);

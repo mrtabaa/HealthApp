@@ -9,8 +9,15 @@ public class LabsController : BaseApiController {
     [HttpPost("register")]
     public async Task<ActionResult<LabRegisterUpdateDto>> Register(LabRegisterUpdateDto labIn) {
         return await _labsRepository.CreateLab(labIn) == null
-        ? BadRequest("Name is teken.") : labIn;
+        ? BadRequest("Email is teken.") : labIn;
     }
+
+    // [HttpPost("login")]
+    // public async Task<ActionResult<LabLoginDto>> Login(LabLoginDto labIn) {
+    //     return await _labsRepository.LoginLab(labIn) == null
+    //     ? BadRequest("Email is teken.") : labIn;
+    // }
+
 
     //api/labs
     // [AllowAnonymous]
@@ -38,5 +45,5 @@ public class LabsController : BaseApiController {
         // UpdateOne updates values
         // returns Null if user already exists to fire BadRequest or OK
         await _labsRepository.UpdateLab(updateDtoIn) == null
-        ? BadRequest("Name is teken.") : updateDtoIn;
+        ? BadRequest("Email is teken.") : updateDtoIn;
 }

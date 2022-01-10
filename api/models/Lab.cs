@@ -6,6 +6,6 @@ public record Lab {
     public string? Email { get; set; }
     public byte[]? PasswordHash { get; set; }
     public byte[]? PasswordSalt { get; set; }
-    public string? Labname { get; set; }
+    public string? LabName { get; set; }
     public string? Phone { get; set; }
 }

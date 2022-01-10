@@ -10,7 +10,7 @@ public record LabRegisterUpdateDto {
     public string? Password { get; set; }
 
     [Required]
-    public string? Labname { get; set; }
+    public string? LabName { get; set; }
 
     [Required]
     [Phone]
