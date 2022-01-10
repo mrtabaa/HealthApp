@@ -4,11 +4,11 @@ public class LabsRepository : ILabsRepository {
     #region MongoDbSettings
     const string _databaseName = "HealthApp";
     const string _collectionName = "Labs";
-    private readonly IMongoCollection<Models.Lab>? _collection;
+    private readonly IMongoCollection<Lab>? _collection;
 
     public LabsRepository(IMongoClient client) {
         var database = client.GetDatabase(_databaseName);
-        _collection = database.GetCollection<Models.Lab>(_collectionName);
+        _collection = database.GetCollection<Lab>(_collectionName);
     }
     #endregion
 
@@ -19,7 +19,7 @@ public class LabsRepository : ILabsRepository {
         using var hmac = new HMACSHA512();
 
         // prevent ComputeHash exception
-        var lab = new Models.Lab {
+        var lab = new Lab {
             Name = labIn.Name,
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(labIn.Password!)),
             PasswordSalt = hmac.Key,
@@ -44,7 +44,7 @@ public class LabsRepository : ILabsRepository {
     }
 
     public async Task<List<LabRegisterUpdateDto>> GetLabs() {
-        var labs = await _collection.Find(new BsonDocument()).ToListAsync();
+        var labs = await _collection.Find<Lab>(new BsonDocument()).ToListAsync();
 
         var labsDto = new List<LabRegisterUpdateDto>();
         foreach (var lab in labs) {
@@ -61,7 +61,7 @@ public class LabsRepository : ILabsRepository {
     }
 
     public async Task DeleteLab(string id)  =>
-        await _collection.DeleteOneAsync(lab => lab.Id == id);
+        await _collection.DeleteOneAsync<Lab>(lab => lab.Id == id);
 
     public async Task<LabRegisterUpdateDto?> UpdateLab(LabRegisterUpdateDto updatedlab) {
         if (await LabExists(updatedlab.Name!)) return null; // if True, fire BadRequest in Controller
@@ -71,7 +71,7 @@ public class LabsRepository : ILabsRepository {
         .Set(e => e.Email, updatedlab.Email)
         .Set(p => p.Phone, updatedlab.Phone);
 
-        await _collection.UpdateOneAsync(l => l.Id == updatedlab.Id, (UpdateDefinition<Models.Lab>)bson);
+        await _collection.UpdateOneAsync<Lab>(l => l.Id == updatedlab.Id, bson);
 
         return updatedlab;
     }

@@ -4,5 +4,5 @@ public interface ILabsRepository {
     Task<LabRegisterUpdateDto> GetLab(string id);
     Task<List<LabRegisterUpdateDto>> GetLabs();
     Task DeleteLab(string id);
-    Task<LabRegisterUpdateDto> UpdateLab(LabRegisterUpdateDto labDto);
+    Task<LabRegisterUpdateDto?> UpdateLab(LabRegisterUpdateDto labDto);
 }
