@@ -13,8 +13,10 @@ public class LabsRepository : ILabsRepository {
     #endregion
 
     #region CRUD
-    public async Task<LabRegisterUpdateDto?> CreateLab(LabRegisterUpdateDto labIn) {
-        if (await LabExists(labIn.Email!)) return null; // labName already exists
+    public async Task<string?> CreateLab(LabRegisterDto labIn) {
+        var existsMessage = await PhoneOrEmailExists(labIn!);
+        if (existsMessage != null)
+            return existsMessage;
 
         using var hmac = new HMACSHA512();
 
@@ -29,17 +31,17 @@ public class LabsRepository : ILabsRepository {
 
         await _collection!.InsertOneAsync(lab); // ! after _collection! tells compiler it's NOT null
 
-        return labIn;
+        return null;
     }
 
     // public async Task<LabLoginDto?> LoginLab(LabLoginDto labIn) {
 
     // }
 
-    public async Task<LabRegisterUpdateDto> GetLab(string id) {
+    public async Task<LabRegisterDto> GetLab(string id) {
         var lab = await _collection.Find<Lab>(lab => lab.Id == id).FirstOrDefaultAsync();
 
-        return new LabRegisterUpdateDto {
+        return new LabRegisterDto {
             Id = lab.Id,
             Email = lab.Email,
             LabName = lab.LabName,
@@ -47,12 +49,12 @@ public class LabsRepository : ILabsRepository {
         };
     }
 
-    public async Task<List<LabRegisterUpdateDto>> GetLabs() {
+    public async Task<List<LabRegisterDto>> GetLabs() {
         var labs = await _collection.Find<Lab>(new BsonDocument()).ToListAsync();
 
-        var labsDto = new List<LabRegisterUpdateDto>();
+        var labsDto = new List<LabRegisterDto>();
         foreach (var lab in labs) {
-            var labDto = new LabRegisterUpdateDto();
+            var labDto = new LabRegisterDto();
             labDto.Id = lab.Id;
             labDto.Email = lab.Email;
             labDto.LabName = lab.LabName;
@@ -64,11 +66,13 @@ public class LabsRepository : ILabsRepository {
         return labsDto;
     }
 
-    public async Task DeleteLab(string id)  =>
+    public async Task DeleteLab(string id) =>
         await _collection.DeleteOneAsync<Lab>(lab => lab.Id == id);
 
-    public async Task<LabRegisterUpdateDto?> UpdateLab(LabRegisterUpdateDto updatedlab) {
-        if (await LabExists(updatedlab.Email!)) return null; // if True, fire BadRequest in Controller
+    public async Task<string?> UpdateLab(LabUpdateDto updatedlab) {
+        var existsMessage = await PhoneOrEmailExists(updatedlab!);
+        if (existsMessage != null)
+            return existsMessage;
 
         var bson = Builders<Lab>.Update
         .Set(e => e.Email, updatedlab.Email)
@@ -77,15 +81,27 @@ public class LabsRepository : ILabsRepository {
 
         await _collection.UpdateOneAsync<Lab>(l => l.Id == updatedlab.Id, bson);
 
-        return updatedlab;
+        return null;
     }
 
     #endregion
 
     #region Helper methods
-    private async Task<bool> LabExists(string labEmailIn) =>
-        null == await _collection.Find<Lab>(lab => lab.Email == labEmailIn).FirstOrDefaultAsync()
-        ? false : true;
+    private async Task<string?> PhoneOrEmailExists(LabRegisterDto labIn) {
+        if (null != await _collection.Find<Lab>(lab => lab.Email == labIn.Email).FirstOrDefaultAsync())
+            return "Email is taken.";
+        if (null != await _collection.Find<Lab>(lab => lab.Phone == labIn.Phone).FirstOrDefaultAsync())
+            return "Phone number is taken.";
+        return null;
+    }
+
+    private async Task<string?> PhoneOrEmailExists(LabUpdateDto labIn) {
+        if (null != await _collection.Find<Lab>(lab => lab.Email == labIn.Email).FirstOrDefaultAsync())
+            return "Email is taken.";
+        if (null != await _collection.Find<Lab>(lab => lab.Phone == labIn.Phone).FirstOrDefaultAsync())
+            return "Phone number is taken.";
+        return null;
+    }
 
     #endregion
 }

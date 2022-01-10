@@ -7,9 +7,9 @@ public class LabsController : BaseApiController {
 
     //api/labs/jsonObject
     [HttpPost("register")]
-    public async Task<ActionResult<LabRegisterUpdateDto>> Register(LabRegisterUpdateDto labIn) {
-        return await _labsRepository.CreateLab(labIn) == null
-        ? BadRequest("Email is teken.") : labIn;
+    public async Task<ActionResult<LabRegisterDto>> Register(LabRegisterDto labIn) {
+        var resultMessage = await _labsRepository.CreateLab(labIn);
+        return resultMessage == null ? labIn : BadRequest(resultMessage);
     }
 
     // [HttpPost("login")]
@@ -22,15 +22,15 @@ public class LabsController : BaseApiController {
     //api/labs
     // [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<LabRegisterUpdateDto>>> GetLabs() =>
+    public async Task<ActionResult<IEnumerable<LabRegisterDto>>> GetLabs() =>
         await _labsRepository.GetLabs();
 
     //api/labs/3
     // [Authorize]
     // [AllowAnonymous]
     [HttpGet("{id}")]
-    public async Task<ActionResult<LabRegisterUpdateDto?>> GetLab(string id) {
-        LabRegisterUpdateDto lab = await _labsRepository.GetLab(id);
+    public async Task<ActionResult<LabRegisterDto?>> GetLab(string id) {
+        LabRegisterDto lab = await _labsRepository.GetLab(id);
         return lab == null ? null : lab; // improve the code by returning NotFound() instead of null
     }
 
@@ -41,9 +41,10 @@ public class LabsController : BaseApiController {
 
     // [Authorize]
     [HttpPatch("update")]
-    public async Task<ActionResult<LabRegisterUpdateDto>> UpdateLab(LabRegisterUpdateDto updateDtoIn) =>
+    public async Task<ActionResult<LabUpdateDto>> UpdateLab(LabUpdateDto updateDtoIn) {
         // UpdateOne updates values
         // returns Null if user already exists to fire BadRequest or OK
-        await _labsRepository.UpdateLab(updateDtoIn) == null
-        ? BadRequest("Email is teken.") : updateDtoIn;
+        var resultMessage = await _labsRepository.UpdateLab(updateDtoIn);
+        return resultMessage == null ? updateDtoIn : BadRequest(resultMessage);
+    }
 }
