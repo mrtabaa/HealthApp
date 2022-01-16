@@ -1,6 +1,6 @@
-namespace api.Repositories;
+namespace api.Interfaces;
 public interface ILabsRepository {
-    Task<string?> CreateLab(LabRegisterDto labIn);
+    Task<UserDto?> CreateLab(LabRegisterDto labIn);
     Task<LabLoginDto?> LoginLab(LabLoginDto labIn);
     Task<LabRegisterDto> GetLab(string id);
     Task<List<LabRegisterDto>> GetLabs();

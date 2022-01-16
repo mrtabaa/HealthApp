@@ -1,42 +1,43 @@
 namespace api.Repositories;
 public class LabsRepository : ILabsRepository {
 
-    #region MongoDbSettings
+    #region Db and Token Settings
     const string _databaseName = "HealthApp";
     const string _collectionName = "Labs";
     private readonly IMongoCollection<Lab>? _collection;
+    private readonly ITokenService _tokenService;
 
-    public LabsRepository(IMongoClient client) {
+    public LabsRepository(IMongoClient client, ITokenService tokenService) {
         var database = client.GetDatabase(_databaseName);
         _collection = database.GetCollection<Lab>(_collectionName);
+        _tokenService = tokenService;
     }
     #endregion
 
     #region CRUD
-    const string takenEmail = "Email is taken.";
-    const string takenPhone = "Phone number is taken.";
-    const string wrongEmail = "This email is not registered";
-    
+
     #region Account
-    public async Task<string?> CreateLab(LabRegisterDto labIn) {
-        var existsMessage = await PhoneOrEmailExists(labIn!);
-        if (existsMessage != null)
-            return existsMessage;
+    public async Task<UserDto?> CreateLab(LabRegisterDto labIn) {
+        if (await PhoneOrEmailExists(labIn!))
+            return null;
 
         using var hmac = new HMACSHA512();
 
         // prevent ComputeHash exception
         var lab = new Lab {
-            LabName = labIn.LabName,
+            Email = labIn.Email,
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(labIn.Password!)),
             PasswordSalt = hmac.Key,
-            Email = labIn.Email,
+            LabName = labIn.LabName,
             Phone = labIn.Phone
         };
 
         await _collection!.InsertOneAsync(lab); // ! after _collection! tells compiler it's NOT null
 
-        return null;
+        return new UserDto {
+            Email = labIn.Email,
+            Token = _tokenService.CreateToken(lab)
+        };
     }
 
     public async Task<LabLoginDto?> LoginLab(LabLoginDto labIn) {
@@ -90,7 +91,7 @@ public class LabsRepository : ILabsRepository {
     public async Task<string?> UpdateLab(LabUpdateDto updatedlab) {
         var existsMessage = await PhoneOrEmailExists(updatedlab!);
         if (existsMessage != null)
-            return existsMessage;
+            return null;
 
         var bson = Builders<Lab>.Update
         .Set(e => e.Email, updatedlab.Email)
@@ -107,21 +108,19 @@ public class LabsRepository : ILabsRepository {
 
     #region Helper methods
 
-    private async Task<string?> PhoneOrEmailExists(LabRegisterDto labIn) {
-        if (null != await _collection.Find<Lab>(lab => lab.Email == labIn.Email).FirstOrDefaultAsync())
-            return takenEmail;
-        if (null != await _collection.Find<Lab>(lab => lab.Phone == labIn.Phone).FirstOrDefaultAsync())
-            return takenPhone;
-        return null;
-    }
+    private async Task<bool> PhoneOrEmailExists(LabRegisterDto labIn) =>
+        null != await _collection
+        .Find<Lab>(
+            lab => lab.Email == labIn.Email || lab.Phone == labIn.Phone
+        ).FirstOrDefaultAsync()
+        ? true : false;
 
-    private async Task<string?> PhoneOrEmailExists(LabUpdateDto labIn) {
-        if (null != await _collection.Find<Lab>(lab => lab.Email == labIn.Email).FirstOrDefaultAsync())
-            return takenEmail;
-        if (null != await _collection.Find<Lab>(lab => lab.Phone == labIn.Phone).FirstOrDefaultAsync())
-            return takenPhone;
-        return null;
-    }
+    private async Task<bool?> PhoneOrEmailExists(LabUpdateDto labIn) =>
+        null != await _collection
+        .Find<Lab>(
+            lab => lab.Email == labIn.Email || lab.Phone == labIn.Phone
+        ).FirstOrDefaultAsync()
+        ? true : false;
 
     #endregion
 }
