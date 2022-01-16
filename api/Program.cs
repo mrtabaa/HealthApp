@@ -1,5 +1,4 @@
 
-
 #region Add services to the container.
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +16,7 @@ builder.Services.AddSingleton<IMongoClient>(serviceProvider => {
 
 // Repositories
 builder.Services.AddScoped<ILabsRepository, LabsRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 #endregion
 
 // Others

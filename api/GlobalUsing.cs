@@ -10,5 +10,10 @@ global using System.Security.Cryptography;
 global using System.Text;
 global using api.DTOs;
 global using System.ComponentModel.DataAnnotations;
+global using api.Services;
+global using api.Interfaces;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using Microsoft.IdentityModel.Tokens;
 
 
