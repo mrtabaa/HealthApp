@@ -6,18 +6,21 @@ public class LabsController : BaseApiController {
     }
 
     #region Account
+    const string takenEmailOrPhone = "Email or/and Phone is taken.";
+    const string InvalidLoginInfo = "Invalid username or password!";
+
     //api/labs/jsonObject
     [HttpPost("register")]
-    public async Task<ActionResult<LabRegisterDto>> Register(LabRegisterDto labIn) {
-        var resultMessage = await _labsRepository.CreateLab(labIn);
-        return resultMessage == null ? labIn : BadRequest(resultMessage);
+    public async Task<ActionResult<UserDto>> Register(LabRegisterDto labIn) {
+        var user = await _labsRepository.CreateLab(labIn);
+        return user == null ? BadRequest(takenEmailOrPhone) : user;
     }
 
     [HttpPost("login")]
     public async Task<ActionResult<LabLoginDto>> Login(LabLoginDto labIn) {
         var logedInUser = await _labsRepository.LoginLab(labIn);
         if (logedInUser == null)
-            return Unauthorized("Invalid username or password!");
+            return Unauthorized(InvalidLoginInfo);
         return logedInUser;
     }
 
