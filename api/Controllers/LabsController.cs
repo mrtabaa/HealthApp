@@ -17,7 +17,7 @@ public class LabsController : BaseApiController {
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<LabLoginDto>> Login(LabLoginDto labIn) {
+    public async Task<ActionResult<UserDto>> Login(LabLoginDto labIn) {
         var logedInUser = await _labsRepository.LoginLab(labIn);
         if (logedInUser == null)
             return Unauthorized(InvalidLoginInfo);
