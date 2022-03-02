@@ -1,6 +1,6 @@
 namespace api.Controllers;
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 // [Authorize]
 //use ControllerBase for api
 //use Controller     for Views and/or api
