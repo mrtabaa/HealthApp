@@ -1,22 +1,18 @@
 
 #region Add services to the container.
 
+using api.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // AUTO-GENERATED CODES //
 builder.Services.AddControllers();
 
-// ADDED CODES //
-// MongoDbSettings
-builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection(nameof(MongoDbSettings)));
-builder.Services.AddSingleton<IMongoClient>(serviceProvider => {
-    var uri = serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value;
-    return new MongoClient(uri.ConnectionString);
-});
+// From customized ServiceExtensions (Extensions folder) for a claen maintained code //
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.AddRepositoryServices(builder.Configuration);
 
-// Repositories
-builder.Services.AddScoped<ILabsRepository, LabsRepository>();
-builder.Services.AddScoped<ITokenService, TokenService>();
 #endregion
 
 // Others
@@ -24,17 +20,6 @@ builder.Services.AddCors(options => {
     options.AddDefaultPolicy(policy => policy.AllowAnyHeader()
         .AllowAnyMethod().WithOrigins("https://localhost:4200"));
 });
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => {
-        options.TokenValidationParameters = new TokenValidationParameters {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"])),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    }
-);
 
 #region Configure the HTTP request pipeline.
 
