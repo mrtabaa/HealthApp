@@ -9,13 +9,14 @@ public class LabsController : BaseApiController {
     const string takenEmailOrPhone = "Email or/and Phone is taken.";
     const string InvalidLoginInfo = "Invalid username or password!";
 
-    //api/labs/jsonObject
+    //Path: labs/jsonObject
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register(LabRegisterDto labIn) {
         var user = await _labsRepository.CreateLab(labIn);
         return user == null ? BadRequest(takenEmailOrPhone) : user;
     }
 
+    [Authorize]
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LabLoginDto labIn) {
         var logedInUser = await _labsRepository.LoginLab(labIn);
@@ -28,14 +29,15 @@ public class LabsController : BaseApiController {
 
     #region LabsManagement
 
-    //api/labs
+    //Path: labs
     // [AllowAnonymous]
+    // [Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<LabRegisterDto>>> GetLabs() =>
         await _labsRepository.GetLabs();
 
-    //api/labs/3
-    // [Authorize]
+    //Path: labs/3
+    [Authorize]
     // [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<ActionResult<LabRegisterDto?>> GetLab(string id) {

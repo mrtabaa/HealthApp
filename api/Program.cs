@@ -25,6 +25,17 @@ builder.Services.AddCors(options => {
         .AllowAnyMethod().WithOrigins("https://localhost:4200"));
 });
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options => {
+        options.TokenValidationParameters = new TokenValidationParameters {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"])),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    }
+);
+
 #region Configure the HTTP request pipeline.
 
 var app = builder.Build();
