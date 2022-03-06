@@ -16,7 +16,6 @@ public class LabsController : BaseApiController {
         return user == null ? BadRequest(takenEmailOrPhone) : user;
     }
 
-    [Authorize]
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LabLoginDto labIn) {
         var logedInUser = await _labsRepository.LoginLab(labIn);
@@ -31,26 +30,25 @@ public class LabsController : BaseApiController {
 
     //Path: labs
     // [AllowAnonymous]
-    // [Authorize]
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<LabRegisterDto>>> GetLabs() =>
         await _labsRepository.GetLabs();
 
     //Path: labs/3
     [Authorize]
-    // [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<ActionResult<LabRegisterDto?>> GetLab(string id) {
         LabRegisterDto lab = await _labsRepository.GetLab(id);
         return lab == null ? null : lab; // improve the code by returning NotFound() instead of null
     }
 
-    // [Authorize]
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task DeleteLab(string id) =>
         await _labsRepository.DeleteLab(id);
 
-    // [Authorize]
+    [Authorize]
     [HttpPatch("update")]
     public async Task<ActionResult<LabUpdateDto>> UpdateLab(LabUpdateDto updateDtoIn) {
         // UpdateOne updates values
