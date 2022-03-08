@@ -8,7 +8,7 @@ export class ClearControlFieldByClick {
 
   constructor() { }
 
-  // send control from DOM through this line, e.g, [dirClearControlField]="CountryFilterCtrl"
+  // send control from DOM through this line, e.g, [dirClearControlFieldByClick]="CountryFilterCtrl"
   @Input('dirClearControlFieldByClick') control!: AbstractControl;
 
   @HostListener('click', ['$event'])
