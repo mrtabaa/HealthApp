@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LazyImgDirective } from '../directives/lazy-img.directive';
 import { InputFormatDirective } from '../directives/input-format.directive';
 import { ClearControlFieldByClick } from '../directives/clear-control-field-by-click.directive';
+import { CheckCountryExistsDirective } from '../directives/check-country-exists.directive';
 
 // components
 import { HomeComponent } from '../components/home/home.component';
@@ -23,6 +24,7 @@ const components = [
   InputFormatDirective,
   ClearControlFieldByClick,
   LazyImgDirective,
+  CheckCountryExistsDirective,
 
   HomeComponent,
   SignupLabComponent,

@@ -13,27 +13,30 @@
                         <mat-error>This field is required.</mat-error>
                     </mat-form-field>
                     <!-- Country -->
-                    <mat-form-field [dirClearControlFieldByClick]="CountryFilterCtrl" #countryField appearance="outline"
+                    <mat-form-field #countryField appearance="outline"
                         flexLayout="row">
-                        <mat-label>Lab's country</mat-label>
-                        <img fxFlex="50px" *ngIf="SelectedCountryCtrl.valid" aria-hidden
-                            [src]="'/assets/images/flags/4x3/' + SelectedCountryCtrl.value.acr +'.svg'" height="25">
-                        &nbsp;
-                        <input #inputElement fxFlex="200px" type="text" placeholder="Type to search the country"
-                            aria-label="Country Code" matInput formControlName="countryFilterCtrl"
-                            [matAutocomplete]="auto" required>
-                        <mat-autocomplete #auto="matAutocomplete"
-                            (optionSelected)="moveFocusToNext(countryField, inputElement, governmentIdField, governmentIdInput)">
-                            <mat-option class="country-option" *ngFor="let country of filteredCountries$ | async"
-                                [value]="country.shortName" (onSelectionChange)="getSelectedCountry(country, $event)"
-                                fxLayout="row" fxLayoutAlign="start center">
-                                <img fxFlex="3.5" aria-hidden [src]="'/assets/images/flags/4x3/' + country.acr +'.svg'"
-                                    class="flag">
-                                &nbsp;&nbsp;
-                                <span fxFlex>{{country.name}}</span>
-                            </mat-option>
-                        </mat-autocomplete>
-                        <mat-error>This field is required.</mat-error>
+                        <ng-container [dirClearControlFieldByClick]="CountryFilterCtrl">
+                            <mat-label>Lab's country</mat-label>
+                            <img fxFlex="50px" *ngIf="SelectedCountryCtrl.valid" aria-hidden
+                                [src]="'/assets/images/flags/4x3/' + SelectedCountryCtrl.value.acr +'.svg'" height="25">
+                            &nbsp;
+                            <input #inputElement fxFlex="200px" type="text" placeholder="Type to search the country"
+                                aria-label="Country Code" matInput formControlName="countryFilterCtrl"
+                                [matAutocomplete]="auto" required>
+                            <mat-autocomplete #auto="matAutocomplete"
+                                (optionSelected)="moveFocusToNext(countryField, inputElement, governmentIdField, governmentIdInput)">
+                                <mat-option class="country-option" *ngFor="let country of filteredCountries$ | async"
+                                    [value]="country.shortName"
+                                    (onSelectionChange)="getSelectedCountry(country, $event)" fxLayout="row"
+                                    fxLayoutAlign="start center">
+                                    <img fxFlex="3.5" aria-hidden
+                                        [src]="'/assets/images/flags/4x3/' + country.acr +'.svg'" class="flag">
+                                    &nbsp;&nbsp;
+                                    <span fxFlex>{{country.name}}</span>
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error>This field is required.</mat-error>
+                        </ng-container>
                     </mat-form-field>
                     <!-- Government ID -->
                     <mat-form-field #governmentIdField appearance="outline">
