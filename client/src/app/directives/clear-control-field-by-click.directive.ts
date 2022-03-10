@@ -11,7 +11,7 @@ export class ClearControlFieldByClick {
   // send control from DOM through this line, e.g, [dirClearControlFieldByClick]="CountryFilterCtrl"
   @Input('dirClearControlFieldByClick') control!: AbstractControl;
 
-  @HostListener('click', ['$event'])
+  @HostListener('click', ['$event.target'])
   public onClick(): void {
     if (this.control.value) {
       this.control.setValue("");
