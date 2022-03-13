@@ -12,7 +12,7 @@ export class ClearControlFieldByClick {
   @Input('dirClearControlFieldByClick') control!: AbstractControl;
 
   @HostListener('click', ['$event.target'])
-  public onClick(): void {
+  public onClickOrEnter(): void {
     if (this.control.value) {
       this.control.setValue("");
     }
