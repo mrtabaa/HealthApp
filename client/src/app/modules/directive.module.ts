@@ -4,7 +4,6 @@ import { ClearControlFieldByClickDirective } from '../directives/clear-control-f
 import { InputFormatDirective } from '../directives/input-format.directive';
 import { LazyImgDirective } from '../directives/lazy-img.directive';
 import { AutofocusDirective } from '../directives/autofocus.directive';
-import { FocusNextDirective } from '../directives/focus-next.directive';
 
 const directives: any[] = [
   InputFormatDirective,
@@ -12,7 +11,6 @@ const directives: any[] = [
   ClearControlFieldByClickDirective,
   LazyImgDirective,
   AutofocusDirective,
-  FocusNextDirective,
 ]
 
 @NgModule({
