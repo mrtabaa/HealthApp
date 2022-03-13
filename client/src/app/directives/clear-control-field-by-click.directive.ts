@@ -4,7 +4,7 @@ import { AbstractControl } from '@angular/forms';
 @Directive({
   selector: '[dirClearControlFieldByClick]'
 })
-export class ClearControlFieldByClick {
+export class ClearControlFieldByClickDirective {
 
   constructor() { }
 

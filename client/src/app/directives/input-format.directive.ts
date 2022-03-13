@@ -9,7 +9,8 @@ export class InputFormatDirective {
 
   @Input('dirInputFormat') format: any;
 
-  @HostListener('blur') onBlur() {
+  @HostListener('blur')
+  onBlur() {
     let value: string = this.el.nativeElement.value;
 
     if (this.format == 'uppercase')

@@ -14,7 +14,8 @@ export class CheckCountryExistsDirective {
   @Input('dirCheckCountryExists') selectedCountryCtrl!: AbstractControl;
   @Input('dirSecondInput') countryFilterCtrl!: AbstractControl;
 
-  @HostListener('focusout') onBlur() {
+  @HostListener('focusout')
+  onBlur() {
     if (this.selectedCountryCtrl.invalid)
       this.countryFilterCtrl.setValue("");
   }
