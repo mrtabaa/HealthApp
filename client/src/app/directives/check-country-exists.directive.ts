@@ -1,6 +1,5 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { CountryListService } from '../services/country-list.service';
 
 @Directive({
   selector: '[dirCheckCountryExists]'
@@ -9,7 +8,7 @@ import { CountryListService } from '../services/country-list.service';
 // check if the user input country exists
 export class CheckCountryExistsDirective {
 
-  constructor(private countryListService: CountryListService, private el: ElementRef) { }
+  constructor() { }
 
   // Pass in multiple inputs: two controllers
   @Input('dirCheckCountryExists') selectedCountryCtrl!: AbstractControl;
@@ -18,7 +17,5 @@ export class CheckCountryExistsDirective {
   @HostListener('focusout') onBlur() {
     if (this.selectedCountryCtrl.invalid)
       this.countryFilterCtrl.setValue("");
-    // else
-    //   this.countryFilterCtrl.
   }
 }
