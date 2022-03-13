@@ -155,12 +155,11 @@ export class SignupLabComponent implements OnInit {
     }
   }
 
-  moveFocusToNext(countryField: any, countryInput: any, governmentIdField: any, governmentIdInput: any): void {
-    countryField._elementRef.nativeElement.classList.remove('mat-focused');
-    countryInput.blur();
-
-    governmentIdField._elementRef.nativeElement.classList.add('mat-focused');
-    governmentIdInput.focus();
+  moveFocusToNext(leaveFocus: HTMLInputElement, gainFocus: HTMLInputElement): void {
+    setTimeout(() => {
+      leaveFocus.blur();
+      gainFocus.focus();
+    });
   }
 
   // other methods
