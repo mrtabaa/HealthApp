@@ -1,16 +1,24 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 import { CountryListService } from '../services/country-list.service';
 
 @Directive({
   selector: '[dirCheckCountryExists]'
 })
+
+// check if the user input country exists
 export class CheckCountryExistsDirective {
 
   constructor(private countryListService: CountryListService, private el: ElementRef) { }
 
-  @HostListener('blur') onBlur() {
-    let value: string = this.el.nativeElement.value;
+  // Pass in multiple inputs: two controllers
+  @Input('dirCheckCountryExists') selectedCountryCtrl!: AbstractControl;
+  @Input('dirSecondInput') countryFilterCtrl!: AbstractControl;
 
-    console.log(value);
+  @HostListener('focusout') onBlur() {
+    if (this.selectedCountryCtrl.invalid)
+      this.countryFilterCtrl.setValue("");
+    // else
+    //   this.countryFilterCtrl.
   }
 }
