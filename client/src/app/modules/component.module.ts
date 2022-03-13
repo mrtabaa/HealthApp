@@ -11,6 +11,7 @@ import { LazyImgDirective } from '../directives/lazy-img.directive';
 import { InputFormatDirective } from '../directives/input-format.directive';
 import { ClearControlFieldByClick } from '../directives/clear-control-field-by-click.directive';
 import { CheckCountryExistsDirective } from '../directives/check-country-exists.directive';
+import { AutofocusDirective } from '../directives/autofocus.directive';
 
 // components
 import { HomeComponent } from '../components/home/home.component';
@@ -25,6 +26,7 @@ const components = [
   ClearControlFieldByClick,
   LazyImgDirective,
   CheckCountryExistsDirective,
+  AutofocusDirective,
 
   HomeComponent,
   SignupLabComponent,
