@@ -1,18 +1,25 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ComponentModule } from './modules/component.module';
+import { FormsModule } from '@angular/forms';
+import { CountryListService } from './services/country-list.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+
+    ComponentModule,
   ],
-  providers: [],
+  providers: [CountryListService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
