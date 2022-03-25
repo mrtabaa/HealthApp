@@ -64,7 +64,8 @@ export class SignupLabComponent implements OnInit {
     zipCtrl: ['', Validators.required],
     additionalInfoCtrl: ['',],
     phoneCountryCodeCtrl: ['', Validators.required],
-    phoneNumberCtrl: ['', [Validators.required, Validators.minLength(8)]],
+    phoneNumberCtrl: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(13), Validators.pattern('^[0-9]*$')]],
+    confirmPhoneNumberCtrl: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(13), Validators.pattern('^[0-9]*$')]],
     combinedPhoneNumberCtrl: ['', Validators.required]
   });
 
@@ -94,6 +95,9 @@ export class SignupLabComponent implements OnInit {
   }
   get PhoneNumberCtrl(): AbstractControl {
     return this.contactInfoFG.get('phoneNumberCtrl') as FormControl;
+  }
+  get ConfirmPhoneNumberCtrl(): AbstractControl {
+    return this.contactInfoFG.get('confirmPhoneNumberCtrl') as FormControl;
   }
   get CombinedPhoneNumberCtrl(): AbstractControl {
     return this.contactInfoFG.get('combinedPhoneNumberCtrl') as FormControl;

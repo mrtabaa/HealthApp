@@ -77,7 +77,23 @@
                         </span>
                         <input formControlName="phoneNumberCtrl" matInput placeholder="858-707-1234" required>
                         <mat-hint>The official phone number only.</mat-hint>
-                        <mat-error>Lab's official phone number is required.</mat-error>
+                        <mat-error *ngIf="PhoneNumberCtrl.hasError('required')">Lab's official phone number is required.</mat-error>
+                        <mat-error *ngIf="PhoneNumberCtrl.hasError('minlength')">The number is too short.</mat-error>
+                        <mat-error *ngIf="PhoneNumberCtrl.hasError('maxlength')">The number is Too long.</mat-error>
+                        <mat-error *ngIf="PhoneNumberCtrl.hasError('pattern')">Enter numbers only without space.</mat-error>
+                    </mat-form-field>
+                    <!-- Confirm Phone Number -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Confirm the Phone Number</mat-label>
+                        <span *ngIf="PhoneCountryCodeCtrl.value" matPrefix>
+                            +{{PhoneCountryCodeCtrl.value}}&nbsp;&nbsp;
+                        </span>
+                        <input formControlName="confirmPhoneNumberCtrl" matInput placeholder="858-707-1234" required>
+                        <mat-hint>Enter the phone number again.</mat-hint>
+                        <mat-error *ngIf="PhoneNumberCtrl.hasError('required')">Lab's phone number confirmation is required.</mat-error>
+                        <mat-error *ngIf="PhoneNumberCtrl.hasError('minlength')">The number is too short.</mat-error>
+                        <mat-error *ngIf="PhoneNumberCtrl.hasError('maxlength')">The number is Too long.</mat-error>
+                        <mat-error *ngIf="PhoneNumberCtrl.hasError('pattern')">Enter numbers only without space.</mat-error>
                     </mat-form-field>
                     <!-- Street address -->
                     <mat-form-field appearance="outline">
