@@ -70,31 +70,47 @@
             <div fxLayout="row" fxLayoutAlign="center">
                 <form [formGroup]="contactInfoFG" fxLayout="column" fxFlex="80" fxFlex.lt-sm="100">
                     <!-- code & Phone Number -->
-                    <mat-form-field appearance="outline">
-                        <mat-label>Lab's Official Phone Number</mat-label>
-                        <span *ngIf="PhoneCountryCodeCtrl.value" matPrefix>
-                            +{{PhoneCountryCodeCtrl.value}}&nbsp;&nbsp;
-                        </span>
-                        <input formControlName="phoneNumberCtrl" matInput placeholder="858-707-1234" required>
-                        <mat-hint>The official phone number only.</mat-hint>
-                        <mat-error *ngIf="PhoneNumberCtrl.hasError('required')">Lab's official phone number is required.</mat-error>
-                        <mat-error *ngIf="PhoneNumberCtrl.hasError('minlength')">The number is too short.</mat-error>
-                        <mat-error *ngIf="PhoneNumberCtrl.hasError('maxlength')">The number is Too long.</mat-error>
-                        <mat-error *ngIf="PhoneNumberCtrl.hasError('pattern')">Enter numbers only without space.</mat-error>
-                    </mat-form-field>
-                    <!-- Confirm Phone Number -->
-                    <mat-form-field appearance="outline">
-                        <mat-label>Confirm the Phone Number</mat-label>
-                        <span *ngIf="PhoneCountryCodeCtrl.value" matPrefix>
-                            +{{PhoneCountryCodeCtrl.value}}&nbsp;&nbsp;
-                        </span>
-                        <input formControlName="confirmPhoneNumberCtrl" matInput placeholder="858-707-1234" required>
-                        <mat-hint>Enter the phone number again.</mat-hint>
-                        <mat-error *ngIf="PhoneNumberCtrl.hasError('required')">Lab's phone number confirmation is required.</mat-error>
-                        <mat-error *ngIf="PhoneNumberCtrl.hasError('minlength')">The number is too short.</mat-error>
-                        <mat-error *ngIf="PhoneNumberCtrl.hasError('maxlength')">The number is Too long.</mat-error>
-                        <mat-error *ngIf="PhoneNumberCtrl.hasError('pattern')">Enter numbers only without space.</mat-error>
-                    </mat-form-field>
+                    <ng-container formGroupName="phoneNumberFG">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Lab's Official Phone Number</mat-label>
+                            <span *ngIf="PhoneCountryCodeCtrl.value" matPrefix>
+                                +{{PhoneCountryCodeCtrl.value}}&nbsp;&nbsp;
+                            </span>
+                            <input formControlName="newPhoneNumberCtrl" matInput placeholder="858-707-1234" required>
+                            <mat-hint>The official phone number only.</mat-hint>
+                            <mat-error *ngIf="NewPhoneNumberCtrl.hasError('required')">Lab's official phone number is
+                                required.
+                            </mat-error>
+                            <mat-error *ngIf="NewPhoneNumberCtrl.hasError('pattern')">Enter numbers only without space.
+                            </mat-error>
+                            <mat-error *ngIf="NewPhoneNumberCtrl.hasError('minlength')">The number is too short.
+                            </mat-error>
+                            <mat-error *ngIf="NewPhoneNumberCtrl.hasError('maxlength')">The number is Too long.
+                            </mat-error>
+                        </mat-form-field>
+                        <!-- Confirm Phone Number -->
+                        <mat-form-field appearance="outline">
+                            <mat-label>Confirm the Phone Number</mat-label>
+                            <span *ngIf="PhoneCountryCodeCtrl.value" matPrefix>
+                                +{{PhoneCountryCodeCtrl.value}}&nbsp;&nbsp;
+                            </span>
+                            <input formControlName="confirmPhoneNumberCtrl" matInput placeholder="858-707-1234"
+                                required>
+                            <mat-hint>Enter the phone number again.</mat-hint>
+                            <mat-error *ngIf="ConfirmPhoneNumberCtrl.hasError('required')">Lab's phone number
+                                confirmation
+                                is required.</mat-error>
+                            <mat-error *ngIf="ConfirmPhoneNumberCtrl.hasError('pattern')">Enter numbers only without
+                                space.
+                            </mat-error>
+                            <mat-error *ngIf="ConfirmPhoneNumberCtrl.hasError('minlength')">The number is too short.
+                            </mat-error>
+                            <mat-error *ngIf="ConfirmPhoneNumberCtrl.hasError('maxlength')">The number is Too long.
+                            </mat-error>
+                            <mat-error *ngIf="PhoneNumberFG.hasError('invalidNumbersMatch')">The entered phone
+                                numbers don't match.</mat-error>
+                        </mat-form-field>
+                    </ng-container>
                     <!-- Street address -->
                     <mat-form-field appearance="outline">
                         <mat-label>Street Address</mat-label>

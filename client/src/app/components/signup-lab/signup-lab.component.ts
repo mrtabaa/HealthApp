@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { StepperOrientation } from '@angular/material/stepper';
 import { Observable } from 'rxjs';
@@ -7,6 +7,7 @@ import { map, startWith } from 'rxjs/operators';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { CountryListService } from 'src/app/services/country-list.service';
 import { ICountry } from 'src/app/models/Icountry';
+import { SignupLabValidators } from './helpers/signup-lab.validator';
 
 @Component({
   selector: 'app-signup-lab',
@@ -57,16 +58,18 @@ export class SignupLabComponent implements OnInit {
   });
 
   contactInfoFG = this.fb.group({
-    streetCtrl: ['', [Validators.required, Validators.minLength(8)]],
-    unitCtrl: ['',],
-    cityCtrl: ['', Validators.required],
-    stateCtrl: ['', Validators.required],
-    zipCtrl: ['', Validators.required],
-    additionalInfoCtrl: ['',],
     phoneCountryCodeCtrl: ['', Validators.required],
-    phoneNumberCtrl: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(13), Validators.pattern('^[0-9]*$')]],
-    confirmPhoneNumberCtrl: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(13), Validators.pattern('^[0-9]*$')]],
-    combinedPhoneNumberCtrl: ['', Validators.required]
+    phoneNumberFG: this.fb.group({
+      newPhoneNumberCtrl: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(13), Validators.pattern('^[0-9]*$')]],
+      confirmPhoneNumberCtrl: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(13), Validators.pattern('^[0-9]*$')]]
+    }, { validator: SignupLabValidators.confirmPhoneNumber }),
+    combinedPhoneNumberCtrl: ['', Validators.required],
+    streetCtrl: ['', [Validators.required, Validators.minLength(8)]],
+    unitCtrl: ['', Validators.maxLength(12)],
+    cityCtrl: ['', [Validators.required, Validators.maxLength(20)]],
+    stateCtrl: ['', [Validators.required, Validators.maxLength(20)]],
+    zipCtrl: ['', [Validators.required, Validators.maxLength(20)]],
+    additionalInfoCtrl: ['', Validators.maxLength(500)],
   });
 
   contractFG = this.fb.group({
@@ -93,17 +96,23 @@ export class SignupLabComponent implements OnInit {
   get PhoneCountryCodeCtrl(): AbstractControl {
     return this.contactInfoFG.get('phoneCountryCodeCtrl') as FormControl;
   }
-  get PhoneNumberCtrl(): AbstractControl {
-    return this.contactInfoFG.get('phoneNumberCtrl') as FormControl;
+  get PhoneNumberFG(): AbstractControl{
+    return this.contactInfoFG.get('phoneNumberFG') as FormGroup;
+  }
+  get NewPhoneNumberCtrl(): AbstractControl {
+    return this.contactInfoFG.get('phoneNumberFG.newPhoneNumberCtrl') as FormControl;
   }
   get ConfirmPhoneNumberCtrl(): AbstractControl {
-    return this.contactInfoFG.get('confirmPhoneNumberCtrl') as FormControl;
+    return this.contactInfoFG.get('phoneNumberFG.confirmPhoneNumberCtrl') as FormControl;
   }
   get CombinedPhoneNumberCtrl(): AbstractControl {
     return this.contactInfoFG.get('combinedPhoneNumberCtrl') as FormControl;
   }
   get StreetCtrlCtrl(): AbstractControl {
     return this.contactInfoFG.get('streetCtrl') as FormControl;
+  }
+  get ContactInfoFG(): AbstractControl {
+    return this.contactInfoFG.get('contactInfoFG') as FormGroup
   }
 
   // Sign Contract
@@ -144,7 +153,7 @@ export class SignupLabComponent implements OnInit {
       code = value;
       this.CombinedPhoneNumberCtrl.setValue(code + phone, { emitEvent: false });
     }));
-    this.PhoneNumberCtrl.valueChanges.subscribe((value => {
+    this.NewPhoneNumberCtrl.valueChanges.subscribe((value => {
       phone = value;
       this.CombinedPhoneNumberCtrl.setValue(code + phone, { emitEvent: false });
     }));
@@ -168,7 +177,7 @@ export class SignupLabComponent implements OnInit {
 
   // other methods
   checkStatus(): void {
-    console.log(this.PhoneNumberCtrl);
+    console.log(this.PhoneNumberFG);
   }
 
   clearStreet() {
