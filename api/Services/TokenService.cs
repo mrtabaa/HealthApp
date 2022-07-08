@@ -5,9 +5,11 @@ public class TokenService : ITokenService {
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
         }
 
-        public string CreateToken(Lab lab) {
+        public string CreateToken(AppUser user) {
             var claims = new List<Claim> {
-                new Claim(JwtRegisteredClaimNames.NameId, lab.Email!)
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id!),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+                new Claim(JwtRegisteredClaimNames.Name, user.Name!),
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
